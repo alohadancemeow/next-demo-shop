@@ -38,6 +38,10 @@ const theme = {
   colors: {
     primary: '#0070f3',
   },
+  breakpoints: {
+    mobile: '576px',
+    tablet: '768px',
+  }
 }
 
 function MyApp({ Component, pageProps }) {
