@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <Layout>
-      {/* <NavBar /> */}
+      <NavBar />
       <Header />
       <Products products={fakeData} />
     </Layout>

@@ -7,6 +7,8 @@ export const Container = styled.div`
    align-items: center;
    padding: 3rem 0;
    /* justify-content: space-between; */
+
+   position: relative;
 `
 export const Logo = styled.div`
     width: 150px;
@@ -27,4 +29,10 @@ export const Subtitle = styled.h4`
     color: gray;
     font-weight: normal;
     letter-spacing: 2px;
+`
+
+export const CartIcon = styled.div`
+    position: absolute;
+    color: gray;
+    right: 5%;
 `

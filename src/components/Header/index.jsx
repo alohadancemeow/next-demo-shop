@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 
-import { Container, Logo, Title, Subtitle } from './styles'
+import { Container, Logo, Title, Subtitle, CartIcon } from './styles'
+import { AiOutlineAccountBook } from 'react-icons/ai'
 
 const Header = () => {
     return (
@@ -16,6 +17,9 @@ const Header = () => {
             </Logo>
             <Title>I will have order</Title>
             <Subtitle>From a buyer, now a seller.</Subtitle>
+            {/* <CartIcon>
+                <AiOutlineAccountBook  size={50}/>
+            </CartIcon> */}
         </Container>
     )
 }
