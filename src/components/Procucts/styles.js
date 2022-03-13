@@ -7,6 +7,7 @@ export const Container = styled.div`
     max-width: 980px;
     padding: 0px;
     margin: 0 auto;
+    /* position: relative; */
 
     @media screen and (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
         margin: 0 20px;
@@ -15,4 +16,3 @@ export const Container = styled.div`
         margin: 0 30px;
     }
 `
-
