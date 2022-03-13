@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 
-import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, Button } from './styles'
+import { AiOutlineLock, AiOutlineShopping } from 'react-icons/ai'
+import { Button } from '../../Styled-elememts'
+import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper } from './styles'
 
 const ProductItem = ({ item }) => {
     // console.log(item);
@@ -18,7 +20,16 @@ const ProductItem = ({ item }) => {
                 <EnterBox enter={enter}>
                     <BoxWrapper>
                         <Button>Product Details</Button>
-                        <Button color='primary'>Add to cart</Button>
+                        {item.inventory
+                            ? <Button type='primary'>
+                                <AiOutlineShopping size={20} />
+                                <span>Add to Cart</span>
+                            </Button>
+                            : <Button type='secondary'>
+                                <AiOutlineLock size={20} />
+                                <span>Sold Out</span>
+                            </Button>
+                        }
                     </BoxWrapper>
                 </EnterBox>
                 <Image
@@ -32,7 +43,12 @@ const ProductItem = ({ item }) => {
             </ImageBox>
             <TextBox>
                 <Title>{item.name}</Title>
-                <Title>{`(qty: ${item.inventory})`}</Title>
+                <Title>
+                    {item.inventory
+                        ? `(qty: ${item.inventory})`
+                        : `(Sold Out)`
+                    }
+                </Title>
                 <Title>{item.price}</Title>
             </TextBox>
 

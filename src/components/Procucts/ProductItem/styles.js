@@ -20,7 +20,6 @@ export const Card = styled.div`
 
 export const ImageBox = styled.div`
     position: relative;
-
     width: 100%;
     text-align: center;
 `
@@ -35,16 +34,14 @@ export const TextBox = styled.div`
 export const Title = styled.p`
     font-size: 14px;
     color: gray;
+    font-weight: 500;
 
     &:nth-child(2) {
-        /* margin-left: 5px;
-        margin-right: 10px; */
         color: orange;
     }
 
     &:nth-child(3) {
-        color: green;
-        /* margin-left: 20px; */
+        color: #52c41a;
 
         ::before{
             content: "฿";
@@ -57,7 +54,7 @@ export const EnterBox = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: gray ;
+    background-color: #d4d4d4;
     opacity: 0.9;
     z-index: 2;
     
@@ -68,19 +65,4 @@ export const BoxWrapper = styled.div`
     justify-content: center;
     width: 100%;
     height: 100%;
-`
-export const Button = styled.button`
-    width: 80%;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    /* padding: 0px; */
-    margin: 10px auto;
-
-    font-size: 16px;
-    font-weight: 600;
-    font-family: inherit;
-    color: ${({ color }) => color === 'primary' ? 'white' : 'black'};
-    background-color: ${({ color }) => color === 'primary' ? 'blue' : 'white'};
 `
