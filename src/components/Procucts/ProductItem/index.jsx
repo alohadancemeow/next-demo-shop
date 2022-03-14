@@ -1,33 +1,43 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 
-// import { Modal } from 'antd'
-import { AiOutlineLock, AiOutlineShopping, AiOutlineCloseCircle, AiFillPushpin } from 'react-icons/ai'
 import { Button } from '../../Styled-elememts'
 import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, ButtonWrapper, Description } from './styles'
 
-import Modal from '@mui/material/Modal';
+import { Modal } from 'antd'
+import { LockOutlined, ShoppingOutlined, CloseCircleOutlined, RightCircleOutlined, PushpinFilled } from '@ant-design/icons'
 
-const ProductItem = ({ item }) => {
+const ProductItem = ({ item, setOpen }) => {
     // console.log(item);
 
     // states
     const [enter, setEnter] = useState(false)
-    const [open, setOpen] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     const handleOpen = () => {
-        setOpen(true)
         setEnter(false)
+        setVisible(true)
     };
-    const handleClose = () => setOpen(false);
+    const handleClose = () => setVisible(false);
+
+    const handleOpenCart = () => {
+        setOpen(true)
+        setVisible(false)
+        setEnter(false)
+    }
 
 
+    // create modal
     const ProductModal = () => (
         <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            // title={item.name}
+            centered
+            visible={visible}
+            onOk={handleOpen}
+            onCancel={handleClose}
+            // width={600}
+            footer={null}
+            closeIcon={<CloseCircleOutlined />}
         >
             <BoxDetails>
                 <Image
@@ -35,29 +45,33 @@ const ProductItem = ({ item }) => {
                     alt={item.name}
                     width={400}
                     height={550}
-                    // layout='fill'
+                    //   layout='fill'
                     priority={true}
                 />
                 <Description>
                     <span>
-                        A good book is available now!
-                        A good book is available now!
+                        <PushpinFilled />
+                        description:
+                    </span>
+                    <span>
                         A good book is available now!
                     </span>
                 </Description>
-
                 <ButtonWrapper>
                     <Button onClick={handleClose}>
-                        <AiOutlineCloseCircle size={20} />
+                        <CloseCircleOutlined style={{ fontSize: '18px' }} />
                         <span>Close</span>
                     </Button>
                     {item.inventory
-                        ? <Button type='primary'>
-                            <AiOutlineShopping size={20} />
-                            <span>Add to Cart</span>
+                        ? <Button
+                            type='accent'
+                            onClick={handleOpenCart}
+                        >
+                            <ShoppingOutlined style={{ fontSize: '18px' }} />
+                            <span>{`Buy ฿${item.price}`}</span>
                         </Button>
                         : <Button type='secondary'>
-                            <AiOutlineLock size={20} />
+                            <LockOutlined style={{ fontSize: '18px' }} />
                             <span>Sold Out</span>
                         </Button>
                     }
@@ -66,7 +80,8 @@ const ProductItem = ({ item }) => {
         </Modal>
     )
 
-    return (
+    // create card
+    const ProductCard = () => (
         <Card
             onMouseEnter={() => setEnter(true)}
             onMouseLeave={() => setEnter(false)}
@@ -79,12 +94,15 @@ const ProductItem = ({ item }) => {
                                 Product Details
                             </Button>
                             {item.inventory
-                                ? <Button type='primary'>
-                                    <AiOutlineShopping size={20} />
+                                ? <Button
+                                    type='primary'
+                                    onClick={handleOpenCart}
+                                >
+                                    <ShoppingOutlined style={{ fontSize: '18px' }} />
                                     <span>Add to Cart</span>
                                 </Button>
                                 : <Button type='secondary'>
-                                    <AiOutlineLock size={20} />
+                                    <LockOutlined style={{ fontSize: '18px' }} />
                                     <span>Sold Out</span>
                                 </Button>
                             }
@@ -100,9 +118,6 @@ const ProductItem = ({ item }) => {
                     priority={true}
                 />
             </ImageBox>
-
-            <ProductModal />
-
             <TextBox>
                 <Title>{item.name}</Title>
                 <Title>
@@ -113,11 +128,14 @@ const ProductItem = ({ item }) => {
                 </Title>
                 <Title>{item.price}</Title>
             </TextBox>
-
-
-
-
         </Card>
+    )
+
+    return (
+        <>
+            <ProductCard />
+            <ProductModal />
+        </>
     )
 }
 

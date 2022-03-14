@@ -25,7 +25,7 @@ const Home = () => {
     <Layout>
       <NavBar setOpen={setOpen} />
       <Header />
-      <Products products={fakeData} />
+      <Products products={fakeData} setOpen={setOpen} />
       <CartDrawer open={open} setOpen={setOpen} />
     </Layout>
   )

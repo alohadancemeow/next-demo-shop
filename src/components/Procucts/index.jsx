@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import ProductItem from './ProductItem'
 import { Container } from './styles'
 
-const Products = ({ products }) => {
+const Products = ({ products, setOpen }) => {
 
     // console.log(products);
 
     return (
         <Container>
             {products.map(item => (
-                <ProductItem key={item.id} item={item} />
+                <ProductItem key={item.id} item={item} setOpen={setOpen} />
             ))}
         </Container>
     )

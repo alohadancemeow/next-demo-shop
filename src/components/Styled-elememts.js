@@ -4,7 +4,11 @@ export const Button = styled.button`
     width: 80%;
     height: 50px;
     border-radius: 3px;
-    border: ${({ type }) => type === 'primary' ? 'none' : type === 'secondary' ? 'none' : '1px solid gray'};
+    border: ${({ type }) => type === 'primary' ? 'none'
+        : type === 'secondary' ? 'none'
+            : type === 'accent' ? 'none'
+                : '1px solid gray'
+    };
     cursor: pointer;
     margin: 10px auto;
     align-items: center;
@@ -12,8 +16,16 @@ export const Button = styled.button`
     /* font-size: 16px; */
     font-family: inherit;
     font-weight: ${({ type }) => type === 'primary' ? 500 : type === 'secondary' ? 600 : 400};
-    color: ${({ type }) => type === 'primary' ? '#fff' : type === 'secondary' ? '#fff' : 'gray'};
-    background-color: ${({ type }) => type === 'primary' ? '#058335' : type === 'secondary' ? '#f35858' : 'white'};
+    color: ${({ theme, type }) => type === 'primary' ? theme.textColors.primary
+        : type === 'secondary' ? theme.textColors.primary
+            : type === 'accent' ? theme.textColors.primary
+                : theme.textColors.secondary
+    };
+    background-color: ${({ theme, type }) => type === 'primary' ? theme.colors.primary
+        : type === 'secondary' ? theme.colors.secondary
+            : type === 'accent' ? theme.colors.accent
+                : 'white'
+    };
 
     display: flex;
     justify-content: center;
@@ -23,6 +35,3 @@ export const Button = styled.button`
     }
     
 `
-
-// #f35858 -red
-// #058335 -blue

@@ -34,7 +34,7 @@ const CartDrawer = ({ open, setOpen }) => {
             placement="right"
             onClose={() => setOpen(false)}
             visible={open}
-            width={500}
+            // width={500}
             closeIcon={<CloseCircleOutlined />}
         >
             <ContainerWrapper >
@@ -58,7 +58,7 @@ const CartDrawer = ({ open, setOpen }) => {
                         <CloseCircleOutlined style={{ fontSize: '18px' }} />
                         <span>Back</span>
                     </Button>
-                    <Button type='primary'>
+                    <Button type='accent'>
                         <RightCircleOutlined style={{ fontSize: '18px' }} />
                         <span>Next</span>
                     </Button>

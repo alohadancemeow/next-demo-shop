@@ -44,7 +44,16 @@ const GlobalStyle = createGlobalStyle`
 // set theme
 const theme = {
   colors: {
-    primary: '#0070f3',
+    primary: '#058335', //green
+    secondary: '#f35858', //red
+    accent: '#588ef3' //blue
+  },
+  textColors: {
+    primary: '#fff',
+    secondary: 'gray',
+    warnning: 'orange',
+    error: '#f35858', 
+    success: '#52c41a' // strong green
   },
   breakpoints: {
     mobile: '576px',
