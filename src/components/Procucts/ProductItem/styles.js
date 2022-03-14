@@ -74,6 +74,7 @@ export const BoxDetails = styled.div`
     align-items: center;
     justify-content: center;
     background-color: white;
+    /* position: relative; */
     
     /* position: absolute;
     top: 50%;

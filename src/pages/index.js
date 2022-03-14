@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar'
 import Products from '../components/Procucts'
 
 import book from '../../public/book.jpg'
+import CartDrawer from '../components/CartDrawer'
 
 // fake data
 const fakeData = [
@@ -17,12 +18,15 @@ const fakeData = [
 
 const Home = () => {
 
+  // states
+  const [open, setOpen] = useState(false)
 
   return (
     <Layout>
-      <NavBar />
+      <NavBar setOpen={setOpen} />
       <Header />
       <Products products={fakeData} />
+      <CartDrawer open={open} setOpen={setOpen} />
     </Layout>
   )
 }

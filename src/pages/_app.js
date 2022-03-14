@@ -1,8 +1,15 @@
 // import '../../styles/globals.css'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { createGlobalStyle, ThemeProvider, css } from 'styled-components'
+
+// useing antd css
+const antdCss = css`
+  ${import('antd/dist/antd.css')}
+`;
 
 // set global style --> reset css
 const GlobalStyle = createGlobalStyle`
+
+  ${antdCss}
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,

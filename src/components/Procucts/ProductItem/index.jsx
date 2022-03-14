@@ -34,7 +34,7 @@ const ProductItem = ({ item }) => {
                     src={item.image}
                     alt={item.name}
                     width={400}
-                    height={600}
+                    height={550}
                     // layout='fill'
                     priority={true}
                 />
