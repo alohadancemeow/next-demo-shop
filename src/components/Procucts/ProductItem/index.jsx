@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 
-import { Button } from '../../Styled-elememts'
+import { StyledButton } from '../../Styled-elememts'
 import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, ButtonWrapper, Description } from './styles'
 
 import { Modal } from 'antd'
@@ -13,7 +13,9 @@ const ProductItem = ({ item, setOpen }) => {
     // states
     const [enter, setEnter] = useState(false)
     const [visible, setVisible] = useState(false);
+    // console.log(enter, visible);
 
+    // handlers
     const handleOpen = () => {
         setEnter(false)
         setVisible(true)
@@ -27,7 +29,7 @@ const ProductItem = ({ item, setOpen }) => {
     }
 
 
-    // create modal
+    // create product item modal
     const ProductModal = () => (
         <Modal
             // title={item.name}
@@ -58,29 +60,37 @@ const ProductItem = ({ item, setOpen }) => {
                     </span>
                 </Description>
                 <ButtonWrapper>
-                    <Button onClick={handleClose}>
-                        <CloseCircleOutlined style={{ fontSize: '18px' }} />
-                        <span>Close</span>
-                    </Button>
+                    <StyledButton
+                        size='large'
+                        onClick={handleClose}
+                        icon={<CloseCircleOutlined />}
+                    >
+                        Close
+                    </StyledButton>
                     {item.inventory
-                        ? <Button
-                            type='accent'
+                        ? <StyledButton
+                            size='large'
+                            variant='accent'
+                            icon={<ShoppingOutlined />}
                             onClick={handleOpenCart}
                         >
-                            <ShoppingOutlined style={{ fontSize: '18px' }} />
-                            <span>{`Buy ฿${item.price}`}</span>
-                        </Button>
-                        : <Button type='secondary'>
-                            <LockOutlined style={{ fontSize: '18px' }} />
-                            <span>Sold Out</span>
-                        </Button>
+                            {`Buy ฿${item.price}`}
+                        </StyledButton>
+                        : <StyledButton
+                            size='large'
+                            variant='secondary'
+                            icon={<LockOutlined />}
+                            disabled
+                        >
+                            Sold Out
+                        </StyledButton>
                     }
                 </ButtonWrapper>
             </BoxDetails>
         </Modal>
     )
 
-    // create card
+    // create product item card
     const ProductCard = () => (
         <Card
             onMouseEnter={() => setEnter(true)}
@@ -90,21 +100,29 @@ const ProductItem = ({ item, setOpen }) => {
                 {enter &&
                     <EnterBox>
                         <BoxWrapper>
-                            <Button onClick={handleOpen}>
+                            <StyledButton
+                                size='large'
+                                onClick={handleOpen}
+                            >
                                 Product Details
-                            </Button>
+                            </StyledButton>
                             {item.inventory
-                                ? <Button
-                                    type='primary'
+                                ? <StyledButton
+                                    size='large'
+                                    variant='primary'
+                                    icon={<ShoppingOutlined />}
                                     onClick={handleOpenCart}
                                 >
-                                    <ShoppingOutlined style={{ fontSize: '18px' }} />
-                                    <span>Add to Cart</span>
-                                </Button>
-                                : <Button type='secondary'>
-                                    <LockOutlined style={{ fontSize: '18px' }} />
-                                    <span>Sold Out</span>
-                                </Button>
+                                    Add to Cart
+                                </StyledButton>
+                                : <StyledButton
+                                    size='large'
+                                    variant='secondary'
+                                    icon={<LockOutlined />}
+                                    disabled
+                                >
+                                    Sold Out
+                                </StyledButton>
                             }
                         </BoxWrapper>
                     </EnterBox>

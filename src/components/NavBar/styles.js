@@ -5,11 +5,6 @@ export const Container = styled.div`
     top: 0;
     z-index: 9;
 `
-
-export const Text = styled.span`
-    color: gray;
-`
-
 export const CartIcon = styled.button`
     position: absolute;
     color: gray;
@@ -21,4 +16,19 @@ export const CartIcon = styled.button`
 
     display: flex;
     align-items: center;
+
+    .cart-icon {
+        font-size: 50px;
+
+        @media screen and ( max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+            font-size: 35px;
+        }
+        @media screen and ( max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+            font-size: 25px;
+        }
+    }
+`
+export const Text = styled.span`
+    color: gray;
+    padding-left: 4px;
 `

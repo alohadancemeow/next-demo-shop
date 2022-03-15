@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { Container, CartIcon, Text } from './styles'
-import { AiOutlineAccountBook } from 'react-icons/ai'
+import { AccountBookOutlined } from '@ant-design/icons'
 
 const NavBar = ({ setOpen }) => {
     return (
         <Container>
             <CartIcon onClick={() => setOpen(true)}>
-                <AiOutlineAccountBook size={50} />
+                <AccountBookOutlined className='cart-icon' />
                 <Text>0 Items</Text>
             </CartIcon>
         </Container>

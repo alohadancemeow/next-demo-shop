@@ -21,6 +21,7 @@ export const Title = styled.h2`
     font-size: 24px;
     font-weight: 500;
     padding: 5px 0;
+    margin-bottom: -10px;
     color: gray;
     text-transform: uppercase;
 `
@@ -29,10 +30,4 @@ export const Subtitle = styled.h4`
     color: gray;
     font-weight: normal;
     letter-spacing: 2px;
-`
-
-export const CartIcon = styled.div`
-    position: absolute;
-    color: gray;
-    right: 5%;
 `

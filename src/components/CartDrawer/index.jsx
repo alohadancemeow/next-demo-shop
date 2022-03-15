@@ -3,7 +3,7 @@ import React from 'react'
 import { Drawer, Steps, Table } from 'antd'
 import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
 import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content } from './styles'
-import { Button } from '../Styled-elememts'
+import { StyledButton } from '../Styled-elememts'
 
 // create steps
 // const steps = [
@@ -54,14 +54,20 @@ const CartDrawer = ({ open, setOpen }) => {
                 </ContentWrapper>
 
                 <ButtontWrapper>
-                    <Button onClick={() => setOpen(false)}>
-                        <CloseCircleOutlined style={{ fontSize: '18px' }} />
-                        <span>Back</span>
-                    </Button>
-                    <Button type='accent'>
-                        <RightCircleOutlined style={{ fontSize: '18px' }} />
-                        <span>Next</span>
-                    </Button>
+                    <StyledButton
+                        size='large'
+                        icon={<CloseCircleOutlined />}
+                        onClick={() => setOpen(false)}
+                    >
+                        Back
+                    </StyledButton>
+                    <StyledButton
+                        size='large'
+                        variant='accent'
+                        icon={<RightCircleOutlined />}
+                    >
+                        Next
+                    </StyledButton>
                 </ButtontWrapper>
             </ContainerWrapper>
         </Drawer>
