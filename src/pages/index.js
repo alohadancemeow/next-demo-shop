@@ -20,13 +20,31 @@ const Home = () => {
 
   // states
   const [open, setOpen] = useState(false)
+  const [current, setCurrent] = useState(0)
+
+  // next step
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  // back step
+  const back = () => {
+    setCurrent(current - 1);
+  };
 
   return (
     <Layout>
       <NavBar setOpen={setOpen} />
       <Header />
       <Products products={fakeData} setOpen={setOpen} />
-      <CartDrawer open={open} setOpen={setOpen} />
+      <CartDrawer
+        open={open}
+        setOpen={setOpen}
+        current={current}
+        setCurrent={setCurrent}
+        next={next}
+        back={back}
+      />
     </Layout>
   )
 }

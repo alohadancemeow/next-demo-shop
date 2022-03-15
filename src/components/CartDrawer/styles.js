@@ -1,12 +1,4 @@
 import styled from 'styled-components'
-import { Drawer } from 'antd'
-
-export const StyledDrawer = styled(Drawer)`
-    /* &.styled-drawer .ant-drawer-content-wrapper {
-        width: 400px !important;
-    } */
-`
-
 
 export const ContainerWrapper = styled.div`
     display: flex;
