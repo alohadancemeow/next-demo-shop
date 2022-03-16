@@ -2,7 +2,6 @@ import Image from 'next/image'
 import React from 'react'
 
 import { Container, Logo, Title, Subtitle} from './styles'
-import { AiOutlineAccountBook } from 'react-icons/ai'
 
 const Header = () => {
     return (

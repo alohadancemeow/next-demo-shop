@@ -27,3 +27,17 @@ export const ButtontWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr ;
 `
+
+export const TableWrapper = styled.div`
+    width: 100%;
+    /* margin: 0 10px; */
+    /* overflow: hidden; */
+`
+
+export const TableFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 15px 30px 10px 0;
+`

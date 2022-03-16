@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { AiFillPushpin } from 'react-icons/ai'
 
 export const Card = styled.div`
     display: flex;
