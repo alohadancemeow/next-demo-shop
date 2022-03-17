@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import { Drawer, Steps, Table, message, Image as AntdImage, Popconfirm } from 'antd'
+import { Drawer, Steps, Table, message, Image as AntdImage, Popconfirm, Form, Input } from 'antd'
 import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
 
-import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, TableWrapper, TableFooter } from './styles'
+import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, TableWrapper, TableFooter, FormWrapper } from './styles'
 import { StyledButton } from '../Styled-elememts'
 
 import { fakeData as item } from '../../pages'
@@ -12,6 +12,7 @@ import { fakeData as item } from '../../pages'
 const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
 
     const [width, setWidth] = useState(0)
+    console.log(current);
 
     const { Step } = Steps;
 
@@ -19,64 +20,16 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
     const isMobile = width <= 578 ? true : false
 
     // data for table
-    const dataSource = [
-        {
-            key: '1',
-            image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-            name: `${item[0].name}`,
-            qty: `${item[0].qty}`,
-            price: `฿${(item[0].price * item[0].qty).toFixed(2)}`,
-        },
-        {
-            key: '2',
-            image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-            name: 'John',
-            qty: 42,
-            price: '฿10.00',
-        },
-        {
-            key: '3',
-            image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-            name: 'John',
-            qty: 42,
-            price: '฿10.00',
-        },
-        {
-            key: '4',
-            image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-            name: 'John',
-            qty: 42,
-            price: '฿10.00',
-        },
-        // {
-        //     key: '4',
-        //     image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-        //     name: 'John',
-        //     qty: 42,
-        //     price: '฿10.00',
-        // },
-        // {
-        //     key: '4',
-        //     image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-        //     name: 'John',
-        //     qty: 42,
-        //     price: '฿10.00',
-        // },
-        // {
-        //     key: '4',
-        //     image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-        //     name: 'John',
-        //     qty: 42,
-        //     price: '฿10.00',
-        // },
-        // {
-        //     key: '4',
-        //     image: <AntdImage src={item[0].image.src} preview={false} width={50} />,
-        //     name: 'John',
-        //     qty: 42,
-        //     price: '฿10.00',
-        // },
-    ];
+    const dataSource = []
+    item.map(item => (
+        dataSource.push({
+            key: item.id,
+            image: <AntdImage src={item.image.src} alt={item.name} preview={false} width={50} />,
+            name: item.name,
+            qty: item.qty,
+            price: item.price
+        })
+    ))
 
     // columns for table
     const columns = [
@@ -118,6 +71,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
         }
     ];
 
+    // # Content 1 --> Cart table
     const CartTable = () => (
         <TableWrapper>
             <Table
@@ -137,6 +91,71 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
         </TableWrapper>
     )
 
+    // # Content 2 --> Bill address form
+
+    const onFinish = (values) => {
+        console.log('Success:', values);
+    };
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
+    const BillAdressForm = () => (
+        <FormWrapper>
+            <Form
+                size='middle'
+                layout='vertical'
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                id='form'
+            >
+                <Form.Item
+                    label="Username"
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your username!',
+                        },
+                    ]}
+                >
+                    <Input
+                        placeholder='alohadancemeow'
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your email!',
+                        },
+                    ]}
+                >
+                    <Input
+                        placeholder='alohadancemeow@gmail.com'
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="Phone"
+                    name="phone"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your phone number!',
+                        },
+                    ]}
+                >
+                    <Input
+                        placeholder='0123456789'
+                    />
+                </Form.Item>
+            </Form>
+        </FormWrapper>
+    )
+
 
     // create steps
     const steps = [
@@ -147,7 +166,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
         },
         {
             title: 'Bill Address',
-            content: 'Content B',
+            content: <BillAdressForm />,
             icon: <WalletOutlined />
         },
         {
@@ -156,6 +175,8 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
             icon: <CreditCardOutlined />
         },
     ];
+
+    console.log(steps.length - 1);
 
 
     // handlers
@@ -222,6 +243,8 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
                         {current > 0 ? 'Back' : 'Close'}
                     </StyledButton>
                     <StyledButton
+                        htmlType='submit'
+                        form='form'
                         size='large'
                         variant='accent'
                         icon={<RightCircleOutlined />}

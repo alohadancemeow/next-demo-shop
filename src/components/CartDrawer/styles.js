@@ -41,3 +41,9 @@ export const TableFooter = styled.div`
     font-weight: 600;
     margin: 15px 30px 10px 0;
 `
+
+export const FormWrapper = styled.div`
+    width: 80%;
+    margin:0 auto;
+    padding-top: 20px;
+`
