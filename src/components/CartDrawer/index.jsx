@@ -12,7 +12,7 @@ import { fakeData as item } from '../../pages'
 const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
 
     const [width, setWidth] = useState(0)
-    console.log(current);
+    // console.log(current);
 
     const { Step } = Steps;
 
@@ -176,7 +176,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
         },
     ];
 
-    console.log(steps.length - 1);
+    // console.log(steps.length - 1);
 
 
     // handlers

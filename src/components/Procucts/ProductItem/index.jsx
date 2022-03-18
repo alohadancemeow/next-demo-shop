@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { stripHtml } from 'string-strip-html'
 
 import { StyledButton } from '../../Styled-elememts'
 import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, ButtonWrapper, Description } from './styles'
@@ -14,6 +15,17 @@ const ProductItem = ({ item, setOpen }) => {
     const [enter, setEnter] = useState(false)
     const [visible, setVisible] = useState(false);
     // console.log(enter, visible);
+
+    // get product's info, strip the html tag
+    const {
+        id,
+        name,
+        description,
+        price: { formatted_with_symbol },
+        inventory: { available },
+        image: { url },
+    } = item
+    const { result } = stripHtml(description)
 
     // handlers
     const handleOpen = () => {
@@ -43,8 +55,8 @@ const ProductItem = ({ item, setOpen }) => {
         >
             <BoxDetails>
                 <Image
-                    src={item.image}
-                    alt={item.name}
+                    src={url}
+                    alt={name}
                     width={400}
                     height={550}
                     //   layout='fill'
@@ -55,9 +67,7 @@ const ProductItem = ({ item, setOpen }) => {
                         <PushpinFilled />
                         description:
                     </span>
-                    <span>
-                        A good book is available now!
-                    </span>
+                    <span>{result}</span>
                 </Description>
                 <ButtonWrapper>
                     <StyledButton
@@ -67,14 +77,14 @@ const ProductItem = ({ item, setOpen }) => {
                     >
                         Close
                     </StyledButton>
-                    {item.inventory
+                    {available
                         ? <StyledButton
                             size='large'
                             variant='accent'
                             icon={<ShoppingOutlined />}
                             onClick={handleOpenCart}
                         >
-                            {`Buy ฿${item.price}`}
+                            {`Buy ${formatted_with_symbol}`}
                         </StyledButton>
                         : <StyledButton
                             size='large'
@@ -106,7 +116,7 @@ const ProductItem = ({ item, setOpen }) => {
                             >
                                 Product Details
                             </StyledButton>
-                            {item.inventory
+                            {available
                                 ? <StyledButton
                                     size='large'
                                     variant='primary'
@@ -128,8 +138,8 @@ const ProductItem = ({ item, setOpen }) => {
                     </EnterBox>
                 }
                 <Image
-                    src={item.image}
-                    alt={item.name}
+                    src={url}
+                    alt={name}
                     width={150}
                     height={200}
                     // layout='fill'
@@ -137,14 +147,14 @@ const ProductItem = ({ item, setOpen }) => {
                 />
             </ImageBox>
             <TextBox>
-                <Title>{item.name}</Title>
+                <Title>{name}</Title>
                 <Title>
-                    {item.inventory
-                        ? `(qty: ${item.inventory})`
+                    {available
+                        ? `(qty: ${available})`
                         : `(Sold Out)`
                     }
                 </Title>
-                <Title>{item.price}</Title>
+                <Title>{formatted_with_symbol}</Title>
             </TextBox>
         </Card>
     )

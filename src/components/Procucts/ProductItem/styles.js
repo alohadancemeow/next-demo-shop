@@ -43,9 +43,9 @@ export const Title = styled.p`
     &:nth-child(3) {
         color: ${({ theme }) => theme.textColors.success};
 
-        ::before{
+        /* ::before{
             content: "฿";
-        }
+        } */
     }
 `
 
