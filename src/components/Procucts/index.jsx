@@ -3,14 +3,19 @@ import React, { useState } from 'react'
 import ProductItem from './ProductItem'
 import { Container } from './styles'
 
-const Products = ({ products, setOpen }) => {
+const Products = ({ products, setOpen, handleAddToCart }) => {
 
     // console.log(products);
 
     return (
         <Container>
             {products.map(item => (
-                <ProductItem key={item.id} item={item} setOpen={setOpen} />
+                <ProductItem
+                    key={item.id}
+                    item={item}
+                    setOpen={setOpen}
+                    handleAddToCart={handleAddToCart}
+                />
             ))}
         </Container>
     )

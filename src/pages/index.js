@@ -25,16 +25,32 @@ const Home = () => {
 
   // Commerce states
   const [products, setProducts] = useState([])
+  const [cart, setCart] = useState({})
 
   // get products
   const fetchProducts = async () => {
     const { data } = await commerce.products.list()
     setProducts(data)
   }
+  // get cart
+  const fetchCart = async () => {
+    const cart = await commerce.cart.retrieve()
+    setCart(cart)
+  }
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
+  // cart handlers
+  const handleAddToCart = async (productId, quantity) => {
+    const { cart } = await commerce.cart.add(productId, quantity)
+    setCart(cart)
+  }
+  const handleRemoveFromCart = async (productId) => {
+    const { cart } = await commerce.cart.remove(productId)
+    setCart(cart)
+  }
+
+
+  // console.log(products);
+  // console.log(cart);
 
   // next step
   const next = () => {
@@ -46,11 +62,21 @@ const Home = () => {
     setCurrent(current - 1);
   };
 
+  // EFFECT:
+  useEffect(() => {
+    fetchProducts()
+    fetchCart()
+  }, [])
+
   return (
     <Layout>
-      <NavBar setOpen={setOpen} />
+      <NavBar setOpen={setOpen} cart={cart} />
       <Header />
-      <Products products={products} setOpen={setOpen} />
+      <Products
+        products={products}
+        setOpen={setOpen}
+        handleAddToCart={handleAddToCart}
+      />
       <CartDrawer
         open={open}
         setOpen={setOpen}
@@ -58,6 +84,8 @@ const Home = () => {
         setCurrent={setCurrent}
         next={next}
         back={back}
+        cart={cart}
+        handleRemoveFromCart={handleRemoveFromCart}
       />
     </Layout>
   )

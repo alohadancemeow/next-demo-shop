@@ -8,7 +8,7 @@ import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, Butto
 import { Modal } from 'antd'
 import { LockOutlined, ShoppingOutlined, CloseCircleOutlined, RightCircleOutlined, PushpinFilled } from '@ant-design/icons'
 
-const ProductItem = ({ item, setOpen }) => {
+const ProductItem = ({ item, setOpen, handleAddToCart }) => {
     // console.log(item);
 
     // states
@@ -38,6 +38,8 @@ const ProductItem = ({ item, setOpen }) => {
         setOpen(true)
         setVisible(false)
         setEnter(false)
+
+        handleAddToCart(id, 1)
     }
 
 

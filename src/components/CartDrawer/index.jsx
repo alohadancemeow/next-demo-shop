@@ -9,25 +9,33 @@ import { StyledButton } from '../Styled-elememts'
 import { fakeData as item } from '../../pages'
 
 
-const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
+const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart }) => {
+
+    // console.log(cart);
 
     const [width, setWidth] = useState(0)
     // console.log(current);
 
     const { Step } = Steps;
 
+    const {
+        line_items,
+        subtotal
+    } = cart
+    console.log(line_items);
+
     // check for innerWidth
     const isMobile = width <= 578 ? true : false
 
     // data for table
     const dataSource = []
-    item.map(item => (
+    line_items && line_items.map(item => (
         dataSource.push({
             key: item.id,
-            image: <AntdImage src={item.image.src} alt={item.name} preview={false} width={50} />,
+            image: <AntdImage src={item.image.url} alt={item.name} preview={false} width={50} />,
             name: item.name,
-            qty: item.qty,
-            price: item.price
+            qty: item.quantity,
+            price: item.price.formatted_with_symbol
         })
     ))
 
@@ -62,9 +70,9 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
                     ? (
                         <Popconfirm
                             title="Sure to delete?"
-                            onConfirm={() => { }}
+                            onConfirm={() => handleRemoveFromCart(record.key)}
                         >
-                            <a><CloseCircleOutlined style={{ fontSize: '18px', color: 'red' }} /></a>
+                            <CloseCircleOutlined style={{ fontSize: '18px', color: 'red' }} />
                         </Popconfirm>
                     ) : null
             )
@@ -84,7 +92,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back }) => {
                 footer={() => (
                     <TableFooter>
                         <span>Total</span>
-                        <span>฿1000.00</span>
+                        <span>{subtotal.formatted_with_symbol}</span>
                     </TableFooter>
                 )}
             />
