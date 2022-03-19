@@ -47,6 +47,10 @@ const Home = () => {
     const { cart } = await commerce.cart.remove(productId)
     setCart(cart)
   }
+  const handleUpdateCartQty = async (productId, quantity) => {
+    const { cart } = await commerce.cart.update(productId, { quantity })
+    setCart(cart)
+  }
 
 
   // console.log(products);
@@ -86,6 +90,7 @@ const Home = () => {
         back={back}
         cart={cart}
         handleRemoveFromCart={handleRemoveFromCart}
+        handleUpdateCartQty={handleUpdateCartQty}
       />
     </Layout>
   )

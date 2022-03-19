@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 
 import { Drawer, Steps, Table, message, Image as AntdImage, Popconfirm, Form, Input } from 'antd'
-import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
+import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined, PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons'
 
-import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, TableWrapper, TableFooter, FormWrapper } from './styles'
+import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, TableWrapper, TableFooter, FormWrapper, EditPriceBox } from './styles'
 import { StyledButton } from '../Styled-elememts'
 
 import { fakeData as item } from '../../pages'
 
 
-const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart }) => {
+const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart, handleUpdateCartQty }) => {
 
     // console.log(cart);
 
@@ -18,11 +18,8 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
 
     const { Step } = Steps;
 
-    const {
-        line_items,
-        subtotal
-    } = cart
-    console.log(line_items);
+    const { line_items, subtotal } = cart
+    // console.log(line_items);
 
     // check for innerWidth
     const isMobile = width <= 578 ? true : false
@@ -55,6 +52,23 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
             title: 'Qty',
             dataIndex: 'qty',
             key: 'qty',
+            render: (_, record) => (
+                <EditPriceBox>
+                    <a onClick={() => {
+                        handleUpdateCartQty(record.key, record.qty + 1)
+                        message.success('Successfully updated')
+                    }}>
+                        <PlusSquareOutlined style={{ fontSize: '16px' }} />
+                    </a>
+                    {record.qty}
+                    <a onClick={() => {
+                        handleUpdateCartQty(record.key, record.qty - 1)
+                        message.success('Successfully updated')
+                    }}>
+                        <MinusSquareOutlined style={{ fontSize: '16px' }} />
+                    </a>
+                </EditPriceBox >
+            )
         },
         {
             title: 'Price',
@@ -83,6 +97,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
     const CartTable = () => (
         <TableWrapper>
             <Table
+                // size='middle'
                 dataSource={dataSource}
                 columns={columns}
                 showHeader={false}

@@ -47,3 +47,9 @@ export const FormWrapper = styled.div`
     margin:0 auto;
     padding-top: 20px;
 `
+
+export const EditPriceBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
