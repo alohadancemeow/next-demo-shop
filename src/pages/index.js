@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import NavBar from '../components/NavBar'
-import Products from '../components/Procucts'
 
 import book from '../../public/book.jpg'
 import CartDrawer from '../components/CartDrawer'
+import CustomTabs from '../components/Tabs'
 
 import { commerce } from '../lib/commerce'
 // fake data
@@ -76,7 +76,7 @@ const Home = () => {
     <Layout>
       <NavBar setOpen={setOpen} cart={cart} />
       <Header />
-      <Products
+      <CustomTabs
         products={products}
         setOpen={setOpen}
         handleAddToCart={handleAddToCart}
