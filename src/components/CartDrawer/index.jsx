@@ -272,6 +272,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
                         variant='accent'
                         icon={<RightCircleOutlined />}
                         onClick={handleNext}
+                        disabled={line_items && line_items.length >= 1 ? false : true}
                     >
                         Next
                     </StyledButton>

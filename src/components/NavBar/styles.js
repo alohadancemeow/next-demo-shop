@@ -7,7 +7,8 @@ export const Container = styled.div`
 `
 export const CartIcon = styled.button`
     position: absolute;
-    color: gray;
+    /* color: gray; */
+    color: ${({ noItem, theme }) => noItem ? 'gray' : theme.colors.primary};
     right: 5%;
     top: 15px;
     cursor: pointer;

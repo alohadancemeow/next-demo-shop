@@ -4,11 +4,15 @@ import { Container, CartIcon, Text } from './styles'
 import { AccountBookOutlined } from '@ant-design/icons'
 
 const NavBar = ({ setOpen, cart }) => {
+
+    const noItem = cart && cart.total_items >= 1 ? false : true
+    // console.log(noItem);
+    
     return (
         <Container>
-            <CartIcon onClick={() => setOpen(true)}>
+            <CartIcon noItem={noItem} onClick={() => setOpen(true)}>
                 <AccountBookOutlined className='cart-icon' />
-                <Text>{cart.total_items ? cart.total_items : 0} Items</Text>
+                <Text>{noItem ? 0 : cart.total_items} Items</Text>
             </CartIcon>
         </Container>
     )
