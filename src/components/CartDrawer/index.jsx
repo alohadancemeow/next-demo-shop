@@ -8,12 +8,15 @@ import { StyledButton } from '../Styled-elememts'
 
 import { fakeData as item } from '../../pages'
 
+import { commerce } from '../../lib/commerce'
+
 
 const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart, handleUpdateCartQty }) => {
 
     // console.log(cart);
 
     const [width, setWidth] = useState(0)
+    const [checkoutToken, setCheckoutToken] = useState(null)
     // console.log(current);
 
     const { Step } = Steps;
@@ -187,11 +190,11 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
             content: <CartTable />,
             icon: <TagsOutlined />
         },
-        {
-            title: 'Bill Address',
-            content: <BillAdressForm />,
-            icon: <WalletOutlined />
-        },
+        // {
+        //     title: 'Bill Address',
+        //     content: <BillAdressForm />,
+        //     icon: <WalletOutlined />
+        // },
         {
             title: 'Payment',
             content: 'Last-content',
@@ -224,6 +227,35 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
 
         return () => window.removeEventListener("resize", handleResize)
     }, [setWidth])
+
+
+    // generate checkout token 
+    useEffect(() => {
+        const generateToken = async () => {
+
+            let getToken
+
+            if (!checkoutToken) {
+                try {
+                    const token = await commerce.checkout.generateToken(cart.id, { type: 'cart' })
+                    console.log('token', token);
+                    setCheckoutToken(token)
+                } catch (error) {
+                    console.log(error);
+                    // navigate('/')
+                }
+            }
+
+            if (checkoutToken) {
+                getToken = await commerce.checkout.getToken(checkoutToken.id)
+                console.log('getToken', getToken);
+            }
+
+        }
+
+        open && cart && cart.line_items && generateToken()
+    }, [open])
+
 
     return (
         <Drawer
@@ -274,7 +306,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
                         onClick={handleNext}
                         disabled={line_items && line_items.length >= 1 ? false : true}
                     >
-                        Next
+                        Checkout
                     </StyledButton>
                 </ButtontWrapper>
             </ContainerWrapper>

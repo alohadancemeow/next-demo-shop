@@ -6,7 +6,7 @@ import Products from '../Procucts';
 const { TabPane } = Tabs;
 
 const CustomTabs = ({ products, setOpen, handleAddToCart }) => {
-    console.log(products);
+    // console.log(products);
 
     // filtering by category
     const bookProducts = products && products.filter(({ categories: [{ slug }] }) => slug === 'book')
