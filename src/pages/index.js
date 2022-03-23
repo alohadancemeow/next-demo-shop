@@ -26,6 +26,7 @@ const Home = () => {
   // Commerce states
   const [products, setProducts] = useState([])
   const [cart, setCart] = useState({})
+  const [order, setOrder] = useState({})
 
   // get products
   const fetchProducts = async () => {
@@ -50,6 +51,22 @@ const Home = () => {
   const handleUpdateCartQty = async (productId, quantity) => {
     const { cart } = await commerce.cart.update(productId, { quantity })
     setCart(cart)
+  }
+  // Refresh the cart and update the cart state
+  const refreshCart = async () => {
+    const newCart = await commerce.cart.refresh()
+    setCart(newCart)
+  }
+
+  // Capture the checkout
+  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+    try {
+      const order = commerce.checkout.capture(checkoutTokenId, newOrder)
+      setOrder(order)
+      refreshCart()
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
@@ -91,6 +108,7 @@ const Home = () => {
         cart={cart}
         handleRemoveFromCart={handleRemoveFromCart}
         handleUpdateCartQty={handleUpdateCartQty}
+        handleCaptureCheckout={handleCaptureCheckout}
       />
     </Layout>
   )

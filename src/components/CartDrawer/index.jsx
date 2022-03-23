@@ -11,7 +11,7 @@ import { fakeData as item } from '../../pages'
 import { commerce } from '../../lib/commerce'
 
 
-const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart, handleUpdateCartQty }) => {
+const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart, handleUpdateCartQty, handleCaptureCheckout }) => {
 
     // console.log(cart);
 
