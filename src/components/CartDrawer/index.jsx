@@ -6,30 +6,24 @@ import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, 
 import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, TableWrapper, TableFooter, FormWrapper, EditPriceBox } from './styles'
 import { StyledButton } from '../Styled-elememts'
 
-import { fakeData as item } from '../../pages'
+import getCommerce from '../../lib/commerce'
 
-import { commerce } from '../../lib/commerce'
-
+const { Step } = Steps;
 
 const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart, handleUpdateCartQty, handleCaptureCheckout }) => {
 
-    // console.log(cart);
-
+    // states
     const [width, setWidth] = useState(0)
     const [checkoutToken, setCheckoutToken] = useState(null)
-    // console.log(current);
-
-    const { Step } = Steps;
 
     const { line_items, subtotal } = cart
-    // console.log(line_items);
 
     // check for innerWidth
     const isMobile = width <= 578 ? true : false
 
     // data for table
     const dataSource = []
-    line_items && line_items.map(item => (
+    cart && cart.line_items && cart.line_items.map(item => (
         dataSource.push({
             key: item.id,
             image: <AntdImage src={item.image.url} alt={item.name} preview={false} width={50} />,
@@ -233,6 +227,8 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
     useEffect(() => {
         const generateToken = async () => {
 
+            const commerce = getCommerce()
+
             let getToken
 
             if (!checkoutToken) {
@@ -276,7 +272,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
                     </Steps>
 
                     <Content>
-                        {!item
+                        {!line_items
                             ? <p>No item</p>
                             : <>
                                 {steps[current].content}
