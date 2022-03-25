@@ -25,14 +25,7 @@ const Home = ({ merchant, categories, products }) => {
   const commerce = getCommerce()
 
   // cart handlers
-  const handleRemoveFromCart = async (productId) => {
-    const { cart } = await commerce.cart.remove(productId)
-    setCart(cart)
-  }
-  const handleUpdateCartQty = async (productId, quantity) => {
-    const { cart } = await commerce.cart.update(productId, { quantity })
-    setCart(cart)
-  }
+
   // Refresh the cart and update the cart state
   const refreshCart = async () => {
     const newCart = await commerce.cart.refresh()
@@ -60,11 +53,11 @@ const Home = ({ merchant, categories, products }) => {
     setCurrent(current - 1);
   };
 
-  if(cart.loading) return 'loading...'
+  if (cart.loading) return 'loading...'
 
   return (
     <Layout title='Next-Demo-Shop'>
-      <NavBar setOpen={setOpen} cart={cart.data} />
+      <NavBar setOpen={setOpen} />
       <Header />
       <CustomTabs
         products={products}
@@ -77,9 +70,6 @@ const Home = ({ merchant, categories, products }) => {
         setCurrent={setCurrent}
         next={next}
         back={back}
-        cart={cart.data}
-        handleRemoveFromCart={handleRemoveFromCart}
-        handleUpdateCartQty={handleUpdateCartQty}
         handleCaptureCheckout={handleCaptureCheckout}
       />
     </Layout>

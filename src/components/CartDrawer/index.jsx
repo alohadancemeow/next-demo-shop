@@ -1,115 +1,32 @@
 import React, { useState, useEffect } from 'react'
 
-import { Drawer, Steps, Table, message, Image as AntdImage, Popconfirm, Form, Input } from 'antd'
-import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined, PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons'
+import { Drawer, Steps, message, Form, Input } from 'antd'
+import { CloseCircleOutlined, TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
 
-import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, TableWrapper, TableFooter, FormWrapper, EditPriceBox } from './styles'
+import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content, FormWrapper } from './styles'
 import { StyledButton } from '../Styled-elememts'
+import CartTable from './CartTable'
 
 import getCommerce from '../../lib/commerce'
+import { useCartState } from '../../context/Store'
+
 
 const { Step } = Steps;
 
-const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, handleRemoveFromCart, handleUpdateCartQty, handleCaptureCheckout }) => {
+const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, handleCaptureCheckout }) => {
+
+    const commerce = getCommerce()
 
     // states
     const [width, setWidth] = useState(0)
     const [checkoutToken, setCheckoutToken] = useState(null)
 
-    const { line_items, subtotal } = cart
+    // use context
+    const { cart: { data } } = useCartState()
 
     // check for innerWidth
     const isMobile = width <= 578 ? true : false
 
-    // data for table
-    const dataSource = []
-    cart && cart.line_items && cart.line_items.map(item => (
-        dataSource.push({
-            key: item.id,
-            image: <AntdImage src={item.image.url} alt={item.name} preview={false} width={50} />,
-            name: item.name,
-            qty: item.quantity,
-            price: item.price.formatted_with_symbol
-        })
-    ))
-
-    // columns for table
-    const columns = [
-        {
-            title: 'Image',
-            dataIndex: 'image',
-            key: 'image',
-        },
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Qty',
-            dataIndex: 'qty',
-            key: 'qty',
-            render: (_, record) => (
-                <EditPriceBox>
-                    <a onClick={() => {
-                        handleUpdateCartQty(record.key, record.qty + 1)
-                        message.success('Successfully updated')
-                    }}>
-                        <PlusSquareOutlined style={{ fontSize: '16px' }} />
-                    </a>
-                    {record.qty}
-                    <a onClick={() => {
-                        handleUpdateCartQty(record.key, record.qty - 1)
-                        message.success('Successfully updated')
-                    }}>
-                        <MinusSquareOutlined style={{ fontSize: '16px' }} />
-                    </a>
-                </EditPriceBox >
-            )
-        },
-        {
-            title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-        },
-        {
-            title: 'operation',
-            dataIndex: 'operation',
-            key: 'delete',
-            render: (_, record) => (
-                dataSource.length >= 1
-                    ? (
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleRemoveFromCart(record.key)}
-                        >
-                            <CloseCircleOutlined style={{ fontSize: '18px', color: 'red' }} />
-                        </Popconfirm>
-                    ) : null
-            )
-        }
-    ];
-
-    // # Content 1 --> Cart table
-    const CartTable = () => (
-        <TableWrapper>
-            <Table
-                // size='middle'
-                dataSource={dataSource}
-                columns={columns}
-                showHeader={false}
-                pagination={false}
-                // pagination={{ pageSize: 5 }}
-                scroll={{ y: isMobile ? 250 : 600 }}
-                footer={() => (
-                    <TableFooter>
-                        <span>Total</span>
-                        <span>{subtotal.formatted_with_symbol}</span>
-                    </TableFooter>
-                )}
-            />
-        </TableWrapper>
-    )
 
     // # Content 2 --> Bill address form
 
@@ -181,7 +98,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
     const steps = [
         {
             title: 'Items',
-            content: <CartTable />,
+            content: <CartTable isMobile={isMobile} />,
             icon: <TagsOutlined />
         },
         // {
@@ -203,9 +120,9 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
     const handleNext = () => {
         if (current < steps.length - 1) next()
         if (current === steps.length - 1) {
-            message.success('Processing complete!')
             setCurrent(0)
             setOpen(false)
+            message.success('Processing complete!')
         }
     }
 
@@ -225,17 +142,16 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
 
     // generate checkout token 
     useEffect(() => {
+
+        let getToken
+
         const generateToken = async () => {
-
-            const commerce = getCommerce()
-
-            let getToken
 
             if (!checkoutToken) {
                 try {
-                    const token = await commerce.checkout.generateToken(cart.id, { type: 'cart' })
-                    console.log('token', token);
-                    setCheckoutToken(token)
+                    getToken = await commerce.checkout.generateToken(data.id, { type: 'cart' })
+                    console.log('token', getToken);
+                    setCheckoutToken(getToken)
                 } catch (error) {
                     console.log(error);
                     // navigate('/')
@@ -249,7 +165,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
 
         }
 
-        open && cart && cart.line_items && generateToken()
+        open && data && data.line_items && generateToken()
     }, [open])
 
 
@@ -272,7 +188,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
                     </Steps>
 
                     <Content>
-                        {!line_items
+                        {!data.line_items
                             ? <p>No item</p>
                             : <>
                                 {steps[current].content}
@@ -300,7 +216,7 @@ const CartDrawer = ({ open, setOpen, current, setCurrent, next, back, cart, hand
                         variant='accent'
                         icon={<RightCircleOutlined />}
                         onClick={handleNext}
-                        disabled={line_items && line_items.length >= 1 ? false : true}
+                        disabled={data && data.line_items && data.line_items.length >= 1 ? false : true}
                     >
                         Checkout
                     </StyledButton>

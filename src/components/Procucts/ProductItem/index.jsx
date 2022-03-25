@@ -7,10 +7,12 @@ import { useCartDispatch } from '../../../context/Store'
 import { StyledButton } from '../../Styled-elememts'
 import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, ButtonWrapper, Description } from './styles'
 
-import { Modal } from 'antd'
+import { Modal, message } from 'antd'
 import { LockOutlined, ShoppingOutlined, CloseCircleOutlined, RightCircleOutlined, PushpinFilled } from '@ant-design/icons'
 
 const ProductItem = ({ item, setOpen }) => {
+
+    const commerce = getCommerce()
 
     // states
     const [enter, setEnter] = useState(false)
@@ -18,7 +20,7 @@ const ProductItem = ({ item, setOpen }) => {
     // console.log(enter, visible);
 
     const { setCart } = useCartDispatch()
-    
+
     // get product's info, strip the html tag
     const {
         id,
@@ -38,9 +40,9 @@ const ProductItem = ({ item, setOpen }) => {
     const handleClose = () => setVisible(false);
 
     const handleAddToCart = async (productId, quantity) => {
-        const commerce = getCommerce()
         const { cart } = await commerce.cart.add(productId, quantity)
         setCart(cart)
+        message.success('Item added')
     }
 
     const handleOpenCart = () => {
