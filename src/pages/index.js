@@ -19,7 +19,6 @@ const Home = ({ merchant, categories, products }) => {
 
   // states
   const [open, setOpen] = useState(false)
-  const [current, setCurrent] = useState(0)
   const [order, setOrder] = useState({})
 
   const commerce = getCommerce()
@@ -43,15 +42,6 @@ const Home = ({ merchant, categories, products }) => {
     }
   }
 
-  // next step
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  // back step
-  const back = () => {
-    setCurrent(current - 1);
-  };
 
   if (cart.loading) return 'loading...'
 
@@ -66,11 +56,6 @@ const Home = ({ merchant, categories, products }) => {
       <CartDrawer
         open={open}
         setOpen={setOpen}
-        current={current}
-        setCurrent={setCurrent}
-        next={next}
-        back={back}
-        handleCaptureCheckout={handleCaptureCheckout}
       />
     </Layout>
   )
