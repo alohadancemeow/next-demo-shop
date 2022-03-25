@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ProductItem from './ProductItem'
 import { Container } from './styles'
 
-const Products = ({ products, setOpen, handleAddToCart }) => {
+const Products = ({ products, setOpen }) => {
 
     // console.log(products);
 
@@ -14,7 +14,6 @@ const Products = ({ products, setOpen, handleAddToCart }) => {
                     key={item.id}
                     item={item}
                     setOpen={setOpen}
-                    handleAddToCart={handleAddToCart}
                 />
             ))}
         </Container>

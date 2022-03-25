@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { stripHtml } from 'string-strip-html'
+import getCommerce from '../../../lib/commerce'
+import { useCartDispatch } from '../../../context/Store'
 
 import { StyledButton } from '../../Styled-elememts'
 import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, ButtonWrapper, Description } from './styles'
 
-import { Modal } from 'antd'
+import { Modal, message } from 'antd'
 import { LockOutlined, ShoppingOutlined, CloseCircleOutlined, RightCircleOutlined, PushpinFilled } from '@ant-design/icons'
 
-const ProductItem = ({ item, setOpen, handleAddToCart }) => {
-    // console.log(item);
+const ProductItem = ({ item, setOpen }) => {
+
+    const commerce = getCommerce()
 
     // states
     const [enter, setEnter] = useState(false)
     const [visible, setVisible] = useState(false);
     // console.log(enter, visible);
+
+    const { setCart } = useCartDispatch()
 
     // get product's info, strip the html tag
     const {
@@ -33,6 +38,12 @@ const ProductItem = ({ item, setOpen, handleAddToCart }) => {
         setVisible(true)
     };
     const handleClose = () => setVisible(false);
+
+    const handleAddToCart = async (productId, quantity) => {
+        const { cart } = await commerce.cart.add(productId, quantity)
+        setCart(cart)
+        message.success('Item added')
+    }
 
     const handleOpenCart = () => {
         setOpen(true)

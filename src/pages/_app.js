@@ -1,5 +1,6 @@
 // import '../../styles/globals.css'
 import { createGlobalStyle, ThemeProvider, css } from 'styled-components'
+import { StoreProvider } from '../context/Store';
 
 // useing antd css
 const antdCss = css`
@@ -52,7 +53,7 @@ const theme = {
     primary: '#fff',
     secondary: 'gray',
     warnning: 'orange',
-    error: '#f35858', 
+    error: '#f35858',
     success: '#52c41a' // strong green
   },
   breakpoints: {
@@ -63,13 +64,21 @@ const theme = {
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <StoreProvider>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
+    </StoreProvider>
   )
 }
 
 export default MyApp
+
+MyApp.getInitialProps = async () => {
+  return {
+    pageProps: {
+      commercePublicKey: process.env.NEXT_PUBLIC_SANDBOX_PUBLIC_KEY
+    }
+  }
+}

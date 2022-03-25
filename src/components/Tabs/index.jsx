@@ -19,21 +19,18 @@ const CustomTabs = ({ products, setOpen, handleAddToCart }) => {
                 <Products
                     products={products}
                     setOpen={setOpen}
-                    handleAddToCart={handleAddToCart}
                 />
             </TabPane>
             <TabPane tab="BOOKS" key="2">
                 <Products
                     products={bookProducts}
                     setOpen={setOpen}
-                    handleAddToCart={handleAddToCart}
                 />
             </TabPane>
             <TabPane tab="NFT" key="3">
                 <Products
                     products={nftProducts}
                     setOpen={setOpen}
-                    handleAddToCart={handleAddToCart}
                 />
             </TabPane>
         </Tabs>
