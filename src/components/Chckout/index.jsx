@@ -1,14 +1,47 @@
 import React, { useState } from 'react'
 
-import { Steps, message, Form, Input } from 'antd'
+import { Steps, message, Form, Input, Button } from 'antd'
 import { TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
+
+import CustomerInfo from './CustomerInfo'
+import ShippingDetails from './ShippingDetails'
+import PaymentForm from './PaymentForm'
+
+import {
+    Container,
+    BoxWrapper,
+    Header,
+    ContentWrapper,
+    ContentBox,
+    SummaryBox,
+    SummaryContent,
+    SummaryTitle,
+    SummaryItemList,
+    Subtitle,
+    Subtotal,
+    ButtonWrapper
+} from './styles'
 
 const { Step } = Steps
 
 const CheckoutPage = ({ data, checkoutToken }) => {
 
+    console.log(data);
+    console.log(checkoutToken);
+    // if (!checkoutToken) return 'No order!'
+
+    // const { live: { line_items, subtotal } } = checkoutToken
+
     // states
     const [current, setCurrent] = useState(0)
+    const [userInfo, setUserInfo] = useState({
+        name: '' | 'alo',
+        email: '',
+        phone: ''
+    })
+
+    console.log(userInfo);
+
 
     // next-back step
     const next = () => setCurrent(current + 1)
@@ -27,29 +60,6 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     const handleBack = () => current > 0 ? back() : null
 
 
-
-    // TODO: checkout 
-    // 1. customer infomation
-    const CustomerInfomation = () => (
-        <div>customer infomation</div>
-    )
-    // 2. shipping address
-    const ShippingAddress = () => (
-        <div>shipping address</div>
-    )
-    // 3. confirm payment
-    const Payment = () => (
-        <div>confirm payment</div>
-    )
-
-
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
 
     const BillAdressForm = () => (
         <FormWrapper>
@@ -106,36 +116,86 @@ const CheckoutPage = ({ data, checkoutToken }) => {
         </FormWrapper>
     )
 
-    // create steps
+
+    // TODO: checkout steps
+    // 1. customer infomation
+    // 2. shipping details
+    // 3. confirm payment
     const steps = [
         {
-            title: 'Items',
-            content: <CustomerInfomation />,
-            icon: <TagsOutlined />
+            title: 'Customer',
+            content: <CustomerInfo setUserInfo={setUserInfo} />,
         },
         {
-            title: 'Bill Address',
-            content: <ShippingAddress />,
-            icon: <WalletOutlined />
+            title: 'Shipping Details',
+            content: <ShippingDetails />,
         },
         {
             title: 'Payment',
-            content: <Payment />,
-            icon: <CreditCardOutlined />
+            content: <PaymentForm />,
         },
     ];
 
     return (
-        <div>
-            <Steps size='small' current={current}>
-                {steps.map(item => (
-                    <Step key={item.title} title={item.title} icon={item.icon} />
-                ))}
-            </Steps>
-            <div>
-                {steps[current].content}
-            </div>
-        </div>
+        <Container>
+            <BoxWrapper>
+                <Header>Checkout</Header>
+
+
+                <ContentWrapper>
+                    <ContentBox>
+                        <Steps size='small' current={current} progressDot>
+                            {steps.map(item => (
+                                <Step key={item.title} title={item.title} icon={item.icon} />
+                            ))}
+                        </Steps>
+                        {steps[current].content}
+
+                        <ButtonWrapper>
+                            {current < steps.length - 1 && (
+                                <Button
+                                    type="primary"
+                                    onClick={() => next()}
+                                // disabled={}
+                                >
+                                    Next
+                                </Button>
+                            )}
+                            {current === steps.length - 1 && (
+                                <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                    Done
+                                </Button>
+                            )}
+                            {current > 0 && (
+                                <Button style={{ margin: '0 8px' }} onClick={() => back()}>
+                                    back
+                                </Button>
+                            )}
+                        </ButtonWrapper>
+
+                    </ContentBox>
+
+                    <SummaryBox>
+
+                        <SummaryTitle>Order Summary</SummaryTitle>
+                        <SummaryContent>
+                            {data && data.line_items.map(item => (
+                                <SummaryItemList>
+                                    <Subtitle>x{item.quantity}</Subtitle>
+                                    <Subtitle>{item.name}</Subtitle>
+                                    <Subtitle>{item.line_total.formatted_with_symbol}</Subtitle>
+                                </SummaryItemList>
+                            ))}
+                            <Subtotal>
+                                <span>Subtotal</span>
+                                <span>{data && data.subtotal.formatted_with_code}</span>
+                            </Subtotal>
+                        </SummaryContent>
+
+                    </SummaryBox>
+                </ContentWrapper>
+            </BoxWrapper>
+        </Container>
     )
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import getCommerce from '../lib/commerce'
 import { useCartState } from '../context/Store'
 
+import Layout from '../components/Layout'
 import CheckoutPage from '../components/Chckout'
 
 
@@ -44,7 +45,12 @@ const Checkout = () => {
     }, [])
 
     return (
-        <CheckoutPage data={data} checkoutToken={checkoutToken} />
+        <Layout title='Next-Checkout'>
+            <CheckoutPage
+                data={data}
+                checkoutToken={checkoutToken}
+            />
+        </Layout>
     )
 }
 
