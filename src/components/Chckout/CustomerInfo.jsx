@@ -3,10 +3,10 @@ import React from 'react'
 import { Form, Input } from 'antd'
 import { FormWrapper } from './styles'
 
-const CustomerInfo = ({ setUserInfo, userInfo }) => {
+const CustomerInfo = ({ setShippingData, shippingData }) => {
 
     const handleChange = (e) => {
-        setUserInfo((prev) => setUserInfo({
+        setShippingData((prev) => setShippingData({
             ...prev,
             [e.target.name]: e.target.value
         }))
@@ -24,7 +24,7 @@ const CustomerInfo = ({ setUserInfo, userInfo }) => {
                 >
                     <Input
                         name='name'
-                        value={userInfo.name}
+                        value={shippingData.name}
                         placeholder='alohadancemeow'
                         onChange={handleChange}
                     />
@@ -35,7 +35,7 @@ const CustomerInfo = ({ setUserInfo, userInfo }) => {
                 >
                     <Input
                         name='email'
-                        value={userInfo.email}
+                        value={shippingData.email}
                         placeholder='alohadancemeow@gmail.com'
                         onChange={handleChange}
                     />
@@ -46,7 +46,7 @@ const CustomerInfo = ({ setUserInfo, userInfo }) => {
                 >
                     <Input
                         name='phone'
-                        value={userInfo.phone}
+                        value={shippingData.phone}
                         placeholder='0123456789'
                         onChange={handleChange}
                     />

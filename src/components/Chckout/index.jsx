@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import getCommerce from '../../lib/commerce'
 
-import { Steps, message, Form, Input, Button } from 'antd'
-import { TagsOutlined, WalletOutlined, CreditCardOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
+import { Steps, message, Button } from 'antd'
+import { CheckCircleOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
 
 import CustomerInfo from './CustomerInfo'
 import ShippingDetails from './ShippingDetails'
 import PaymentForm from './PaymentForm'
+import NoOrder from './NoOrder'
 
 import {
     Container,
@@ -22,36 +24,43 @@ import {
     ButtonWrapper
 } from './styles'
 
+
+
 const { Step } = Steps
 
 const CheckoutPage = ({ data, checkoutToken }) => {
 
+    if (!checkoutToken) return <NoOrder />
     // console.log(data);
     // console.log(checkoutToken);
-    // if (!checkoutToken) return 'No order!'
+
+    const commerce = getCommerce()
 
     // const { live: { line_items, subtotal } } = checkoutToken
 
-    // states
+    // states of customer
     const [current, setCurrent] = useState(0)
-    const [userInfo, setUserInfo] = useState({
-        name: '',
-        email: '',
-        phone: ''
-    })
+    const [shippingData, setShippingData] = useState({})
 
-    console.log(userInfo);
+    // # States of shipping address
+    const [shippingCountries, setShippingCountries] = useState([])
+    const [shippingCountry, setShippingCountry] = useState('')
+    const [shippingSubdivisions, setShippingSubdivisions] = useState([])
+    const [shippingSubdivision, setShippingSubdivision] = useState('')
+    const [shippingOptions, setShippingOptions] = useState([])
+    const [shippingOption, setShippingOption] = useState('')
+
+
 
     // next-back step
     const next = () => setCurrent(current + 1)
     const back = () => setCurrent(current - 1)
 
-
     // handlers
     const handleNext = () => {
         if (current < steps.length - 1) {
             if (current === 0) {
-                if (userInfo.name === '' || userInfo.email === '' || userInfo.phone === '') {
+                if (shippingData.name === '' || shippingData.email === '' || shippingData.phone === '') {
                     return message.error('Please complete all fields.')
                 }
             }
@@ -60,7 +69,7 @@ const CheckoutPage = ({ data, checkoutToken }) => {
         if (current === steps.length - 1) {
             message.success('Processing complete!')
             // setCurrent(0)
-            // setUserInfo({
+            // setShippingData({
             //     name: '',
             //     email: '',
             //     phone: ''
@@ -71,63 +80,6 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     const handleBack = () => current > 0 ? back() : null
 
 
-
-    const BillAdressForm = () => (
-        <FormWrapper>
-            <Form
-                size='middle'
-                layout='vertical'
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                id='form'
-            >
-                <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your username!',
-                        },
-                    ]}
-                >
-                    <Input
-                        placeholder='alohadancemeow'
-                    />
-                </Form.Item>
-                <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your email!',
-                        },
-                    ]}
-                >
-                    <Input
-                        placeholder='alohadancemeow@gmail.com'
-                    />
-                </Form.Item>
-                <Form.Item
-                    label="Phone"
-                    name="phone"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your phone number!',
-                        },
-                    ]}
-                >
-                    <Input
-                        placeholder='0123456789'
-                    />
-                </Form.Item>
-            </Form>
-        </FormWrapper>
-    )
-
-
     // TODO: checkout steps
     // 1. customer infomation
     // 2. shipping details
@@ -135,7 +87,7 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     const steps = [
         {
             title: 'Customer',
-            content: <CustomerInfo setUserInfo={setUserInfo} userInfo={userInfo} />,
+            content: <CustomerInfo setShippingData={setShippingData} shippingData={shippingData} />,
         },
         {
             title: 'Shipping Details',
@@ -147,7 +99,59 @@ const CheckoutPage = ({ data, checkoutToken }) => {
         },
     ];
 
-    console.log(steps.length - 1);
+    // # Fetch
+    const fetchShippingCountries = async (checkoutTokenId) => {
+        const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId)
+        // console.log('countries', countries);
+
+        setShippingCountries(countries)
+        setShippingCountry(Object.keys(countries)[0])
+    }
+
+    const fetchSubdidvision = async (countryCode) => {
+        const { subdivisions } = await commerce.services.localeListSubdivisions(countryCode)
+        // console.log('subdivisions', subdivisions);
+
+        setShippingSubdivisions(subdivisions)
+        setShippingSubdivision(Object.keys(subdivisions)[0])
+    }
+
+    const fetchShippingOptions = async (checkoutTokenId, country, region = null) => {
+        const options = await commerce.checkout.getShippingOptions(checkoutTokenId, { country, region })
+        // console.log('options', options);
+
+        setShippingOptions(options)
+        setShippingOption(options[0].id)
+    }
+
+    // get key,name from countries  --> 'TH' : 'Thailand'
+    const countries = Object.entries(shippingCountries)
+        .map(([code, name]) => ({ id: code, label: name }))
+    // console.log(countries);
+
+    const subdivisions = Object.entries(shippingSubdivisions)
+        .map(([code, name]) => ({ id: code, label: name }))
+    // console.log(subdivisions);
+
+    const options = shippingOptions.map(so => ({
+        id: so.id,
+        label: `${so.description} - (${so.price.formatted_with_symbol})`
+    }))
+    // console.log(options)
+
+
+    // # Effect
+    useEffect(() => {
+        fetchShippingCountries(checkoutToken.id)
+    }, [])
+
+    useEffect(() => {
+        if (shippingCountry) fetchSubdidvision(shippingCountry)
+    }, [shippingCountry])
+
+    useEffect(() => {
+        if (shippingSubdivision) fetchShippingOptions(checkoutToken.id, shippingCountry, shippingSubdivision)
+    }, [shippingSubdivision])
 
     return (
         <Container>
@@ -165,6 +169,7 @@ const CheckoutPage = ({ data, checkoutToken }) => {
                         <ButtonWrapper>
                             {current < steps.length - 1 && (
                                 <Button
+                                    icon={<RightCircleOutlined />}
                                     type="primary"
                                     onClick={handleNext}
                                 // disabled={}
@@ -174,6 +179,7 @@ const CheckoutPage = ({ data, checkoutToken }) => {
                             )}
                             {current === steps.length - 1 && (
                                 <Button
+                                    icon={<CheckCircleOutlined />}
                                     type="primary"
                                     onClick={handleNext}
                                 >
@@ -182,6 +188,7 @@ const CheckoutPage = ({ data, checkoutToken }) => {
                             )}
                             {current > 0 && (
                                 <Button
+                                    icon={<LeftCircleOutlined />}
                                     style={{ margin: '0 8px' }}
                                     onClick={handleBack}
                                 >
