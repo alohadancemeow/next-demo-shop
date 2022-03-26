@@ -26,8 +26,8 @@ const { Step } = Steps
 
 const CheckoutPage = ({ data, checkoutToken }) => {
 
-    console.log(data);
-    console.log(checkoutToken);
+    // console.log(data);
+    // console.log(checkoutToken);
     // if (!checkoutToken) return 'No order!'
 
     // const { live: { line_items, subtotal } } = checkoutToken
@@ -35,13 +35,12 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     // states
     const [current, setCurrent] = useState(0)
     const [userInfo, setUserInfo] = useState({
-        name: '' | 'alo',
+        name: '',
         email: '',
         phone: ''
     })
 
     console.log(userInfo);
-
 
     // next-back step
     const next = () => setCurrent(current + 1)
@@ -50,10 +49,22 @@ const CheckoutPage = ({ data, checkoutToken }) => {
 
     // handlers
     const handleNext = () => {
-        if (current < steps.length - 1) next()
+        if (current < steps.length - 1) {
+            if (current === 0) {
+                if (userInfo.name === '' || userInfo.email === '' || userInfo.phone === '') {
+                    return message.error('Please complete all fields.')
+                }
+            }
+            next()
+        }
         if (current === steps.length - 1) {
-            setCurrent(0)
-            // message.success('Processing complete!')
+            message.success('Processing complete!')
+            // setCurrent(0)
+            // setUserInfo({
+            //     name: '',
+            //     email: '',
+            //     phone: ''
+            // })
         }
     }
 
@@ -124,7 +135,7 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     const steps = [
         {
             title: 'Customer',
-            content: <CustomerInfo setUserInfo={setUserInfo} />,
+            content: <CustomerInfo setUserInfo={setUserInfo} userInfo={userInfo} />,
         },
         {
             title: 'Shipping Details',
@@ -136,12 +147,12 @@ const CheckoutPage = ({ data, checkoutToken }) => {
         },
     ];
 
+    console.log(steps.length - 1);
+
     return (
         <Container>
             <BoxWrapper>
                 <Header>Checkout</Header>
-
-
                 <ContentWrapper>
                     <ContentBox>
                         <Steps size='small' current={current} progressDot>
@@ -155,19 +166,25 @@ const CheckoutPage = ({ data, checkoutToken }) => {
                             {current < steps.length - 1 && (
                                 <Button
                                     type="primary"
-                                    onClick={() => next()}
+                                    onClick={handleNext}
                                 // disabled={}
                                 >
                                     Next
                                 </Button>
                             )}
                             {current === steps.length - 1 && (
-                                <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                <Button
+                                    type="primary"
+                                    onClick={handleNext}
+                                >
                                     Done
                                 </Button>
                             )}
                             {current > 0 && (
-                                <Button style={{ margin: '0 8px' }} onClick={() => back()}>
+                                <Button
+                                    style={{ margin: '0 8px' }}
+                                    onClick={handleBack}
+                                >
                                     back
                                 </Button>
                             )}

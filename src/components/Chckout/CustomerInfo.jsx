@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Form, Input } from 'antd'
 import { FormWrapper } from './styles'
 
-const CustomerInfo = ({ setUserInfo }) => {
-
+const CustomerInfo = ({ setUserInfo, userInfo }) => {
 
     const handleChange = (e) => {
         setUserInfo((prev) => setUserInfo({
@@ -25,6 +24,7 @@ const CustomerInfo = ({ setUserInfo }) => {
                 >
                     <Input
                         name='name'
+                        value={userInfo.name}
                         placeholder='alohadancemeow'
                         onChange={handleChange}
                     />
@@ -35,6 +35,7 @@ const CustomerInfo = ({ setUserInfo }) => {
                 >
                     <Input
                         name='email'
+                        value={userInfo.email}
                         placeholder='alohadancemeow@gmail.com'
                         onChange={handleChange}
                     />
@@ -45,6 +46,7 @@ const CustomerInfo = ({ setUserInfo }) => {
                 >
                     <Input
                         name='phone'
+                        value={userInfo.phone}
                         placeholder='0123456789'
                         onChange={handleChange}
                     />
