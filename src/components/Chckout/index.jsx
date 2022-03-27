@@ -51,21 +51,25 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     // handlers
     const handleNext = () => {
         if (current < steps.length - 1) {
+
             if (current === 0) {
                 if (!shippingData.name || !shippingData.email || !shippingData.phone) {
                     return message.error('Please complete all fields.')
                 }
             }
+            if (current === 1) {
+                if (!shippingData.address || !shippingData.city || !shippingData.postal) {
+                    return message.error('Please complete all fields.')
+                }
+            }
+
             next()
         }
+
         if (current === steps.length - 1) {
+            setCurrent(0)
+            setShippingData({})
             message.success('Processing complete!')
-            // setCurrent(0)
-            // setShippingData({
-            //     name: '',
-            //     email: '',
-            //     phone: ''
-            // })
         }
     }
 
