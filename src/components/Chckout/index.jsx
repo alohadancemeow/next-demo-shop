@@ -25,23 +25,19 @@ import {
 } from './styles'
 
 
-
 const { Step } = Steps
 
-const CheckoutPage = ({ data, checkoutToken }) => {
+
+const CheckoutPage = ({ checkoutToken }) => {
 
     if (!checkoutToken) return <NoOrder />
-    // console.log(data);
-    // console.log(checkoutToken);
-
-
-    // const { live: { line_items, subtotal } } = checkoutToken
-
-    // states of customer
+    
+    // states
     const [current, setCurrent] = useState(0)
     const [shippingData, setShippingData] = useState({})
+    // console.log(shippingData);
 
-    console.log(shippingData);
+    const { live: { line_items, subtotal } } = checkoutToken
 
 
     // next-back step
@@ -76,7 +72,6 @@ const CheckoutPage = ({ data, checkoutToken }) => {
     const handleBack = () => current > 0 ? back() : null
 
 
-
     // TODO: checkout steps
     // 1. customer infomation
     // 2. shipping details
@@ -102,7 +97,6 @@ const CheckoutPage = ({ data, checkoutToken }) => {
             content: <PaymentForm />,
         },
     ];
-
 
 
     return (
@@ -152,10 +146,9 @@ const CheckoutPage = ({ data, checkoutToken }) => {
                     </ContentBox>
 
                     <SummaryBox>
-
                         <SummaryTitle>Order Summary</SummaryTitle>
                         <SummaryContent>
-                            {data && data.line_items.map(item => (
+                            {line_items.map(item => (
                                 <SummaryItemList>
                                     <Subtitle>x{item.quantity}</Subtitle>
                                     <Subtitle>{item.name}</Subtitle>
@@ -164,11 +157,11 @@ const CheckoutPage = ({ data, checkoutToken }) => {
                             ))}
                             <Subtotal>
                                 <span>Subtotal</span>
-                                <span>{data && data.subtotal.formatted_with_code}</span>
+                                <span>{subtotal.formatted_with_code}</span>
                             </Subtotal>
                         </SummaryContent>
-
                     </SummaryBox>
+                    
                 </ContentWrapper>
             </BoxWrapper>
         </Container>

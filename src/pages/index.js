@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import NavBar from '../components/NavBar'
-
 import CartDrawer from '../components/CartDrawer'
 import CustomTabs from '../components/Tabs'
+import { Spinner } from '../components/Styled-elememts'
 
 import getCommerce from '../lib/commerce'
 import { useCartDispatch, useCartState } from '../context/Store'
@@ -43,7 +43,7 @@ const Home = ({ merchant, categories, products }) => {
   }
 
 
-  if (cart.loading) return 'loading...'
+  if (cart.loading) return <Spinner>Loading...</Spinner>
 
   return (
     <Layout title='Next-Demo-Shop'>

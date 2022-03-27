@@ -47,7 +47,6 @@ const Checkout = () => {
     return (
         <Layout title='Next-Checkout'>
             <CheckoutPage
-                data={data}
                 checkoutToken={checkoutToken}
             />
         </Layout>
