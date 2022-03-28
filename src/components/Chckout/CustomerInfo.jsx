@@ -6,7 +6,7 @@ import { FormWrapper } from './styles'
 const CustomerInfo = ({ setShippingData, shippingData }) => {
 
     const handleChange = (e) => {
-        setShippingData((prev) => setShippingData({
+        setShippingData((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }))

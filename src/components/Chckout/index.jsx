@@ -31,11 +31,11 @@ const { Step } = Steps
 const CheckoutPage = ({ checkoutToken }) => {
 
     if (!checkoutToken) return <NoOrder />
-    
+
     // states
     const [current, setCurrent] = useState(0)
     const [shippingData, setShippingData] = useState({})
-    // console.log(shippingData);
+    console.log(shippingData);
 
     const { live: { line_items, subtotal } } = checkoutToken
 
@@ -63,6 +63,11 @@ const CheckoutPage = ({ checkoutToken }) => {
         }
 
         if (current === steps.length - 1) {
+
+            if (!shippingData.cardNumber || !shippingData.expMonth || !shippingData.expYear ||  !shippingData.cvv) {
+                return message.error('Please complete all fields.')
+            }
+
             setCurrent(0)
             setShippingData({})
             message.success('Processing complete!')
@@ -94,7 +99,10 @@ const CheckoutPage = ({ checkoutToken }) => {
         },
         {
             title: 'Payment',
-            content: <PaymentForm />,
+            content: <PaymentForm
+                shippingData={shippingData}
+                setShippingData={setShippingData}
+            />,
         },
     ];
 
@@ -161,7 +169,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                             </Subtotal>
                         </SummaryContent>
                     </SummaryBox>
-                    
+
                 </ContentWrapper>
             </BoxWrapper>
         </Container>

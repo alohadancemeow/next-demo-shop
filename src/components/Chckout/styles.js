@@ -85,10 +85,16 @@ export const ButtonWrapper = styled.div`
 `
 
 
-// # Customer styles
+// # Form styles
 export const FormWrapper = styled.div`
     width: 80%;
     margin:0 auto;
     padding-top: 20px;
+`
+
+export const FormItemWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px 5px;
 `
 
