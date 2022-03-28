@@ -8,40 +8,16 @@ import CustomTabs from '../components/Tabs'
 import { Spinner } from '../components/Styled-elememts'
 
 import getCommerce from '../lib/commerce'
-import { useCartDispatch, useCartState } from '../context/Store'
+import { useCartState } from '../context/Store'
 
 const Home = ({ merchant, categories, products }) => {
 
   const { cart } = useCartState()
-  const { setCart } = useCartDispatch()
 
   console.log(cart);
 
   // states
   const [open, setOpen] = useState(false)
-  const [order, setOrder] = useState({})
-
-  const commerce = getCommerce()
-
-  // cart handlers
-
-  // Refresh the cart and update the cart state
-  const refreshCart = async () => {
-    const newCart = await commerce.cart.refresh()
-    setCart(newCart)
-  }
-
-  // Capture the checkout
-  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
-    try {
-      const order = commerce.checkout.capture(checkoutTokenId, newOrder)
-      setOrder(order)
-      refreshCart()
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
 
   if (cart.loading) return <Spinner>Loading...</Spinner>
 

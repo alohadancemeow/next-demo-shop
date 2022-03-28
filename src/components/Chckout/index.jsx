@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Router from 'next/router'
+
 import getCommerce from '../../lib/commerce'
+import { useCartDispatch } from '../../context/Store'
 
 import { Steps, message, Button } from 'antd'
 import { CheckCircleOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
@@ -27,6 +30,7 @@ import {
 
 const { Step } = Steps
 
+const commerce = getCommerce()
 
 const CheckoutPage = ({ checkoutToken }) => {
 
@@ -36,6 +40,9 @@ const CheckoutPage = ({ checkoutToken }) => {
     const [current, setCurrent] = useState(0)
     const [shippingData, setShippingData] = useState({})
     console.log(shippingData);
+
+    // call context
+    const { setCart, setOrder } = useCartDispatch()
 
     const { live: { line_items, subtotal } } = checkoutToken
 
@@ -54,7 +61,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                 }
             }
             if (current === 1) {
-                if (!shippingData.address || !shippingData.city || !shippingData.postal) {
+                if (!shippingData.address || !shippingData.city || !shippingData.zip) {
                     return message.error('Please complete all fields.')
                 }
             }
@@ -64,13 +71,15 @@ const CheckoutPage = ({ checkoutToken }) => {
 
         if (current === steps.length - 1) {
 
-            if (!shippingData.cardNumber || !shippingData.expMonth || !shippingData.expYear ||  !shippingData.cvv) {
+            if (!shippingData.cardNumber || !shippingData.expMonth || !shippingData.expYear || !shippingData.cvv) {
                 return message.error('Please complete all fields.')
             }
 
             setCurrent(0)
             setShippingData({})
             message.success('Processing complete!')
+
+            handleCaptureCheckout()
         }
     }
 
@@ -105,6 +114,65 @@ const CheckoutPage = ({ checkoutToken }) => {
             />,
         },
     ];
+
+
+    // Refresh the cart and update the cart state
+    const refreshCart = async () => {
+        const newCart = await commerce.cart.refresh()
+        setCart(newCart)
+    }
+
+    // TODO: Capture the checkout
+    // - create orderData
+    // - capture order
+    // - set order to localStorage
+    // - set order to context
+    // - set refresh cart
+    // - redirect to confirmation page
+    const handleCaptureCheckout = async () => {
+
+        // create orderData for capture
+        const orderData = {
+            line_items: line_items,
+            customer: {
+                firstname: shippingData.name,
+                // lastname: shippingData.lastname,
+                email: shippingData.email,
+                phone: shippingData.phone
+            },
+            shipping: {
+                name: shippingData.name,
+                street: shippingData.address,
+                town_city: shippingData.city,
+                county_state: shippingData.shippingSubdivision,
+                postal_zip_code: shippingData.zip,
+                country: shippingData.shippingCountry
+            },
+            fulfillment: {
+                shipping_method: shippingData.shippingOption
+            },
+            payment: {
+                gateway: 'test_gateway',
+                card: {
+                    number: shippingData.cardNumber,
+                    expiry_month: shippingData.expMonth,
+                    expiry_year: shippingData.expYear,
+                    cvc: shippingData.cvv,
+                    postal_zip_code: shippingData.zip,
+                },
+            }
+        }
+
+        try {
+            const order = await commerce.checkout.capture(checkoutToken.id, orderData)
+            localStorage.setItem('order_receipt', JSON.stringify(order))
+            setOrder(order)
+            await refreshCart()
+            Router.push('/confirmation')
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     return (

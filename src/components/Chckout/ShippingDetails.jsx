@@ -121,8 +121,8 @@ const ShippingDetails = ({ checkoutToken, shippingData, setShippingData }) => {
         <Form.Item label="Postal/Zip code" required>
           <Input
             placeholder='12345'
-            name='postal'
-            value={shippingData.postal}
+            name='zip'
+            value={shippingData.zip}
             onChange={handleChange}
           />
         </Form.Item>
