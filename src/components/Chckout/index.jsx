@@ -38,8 +38,8 @@ const CheckoutPage = ({ checkoutToken }) => {
 
     // states
     const [current, setCurrent] = useState(0)
+    const [loading, setLoading] = useState(false)
     const [shippingData, setShippingData] = useState({})
-    console.log(shippingData);
 
     // call context
     const { setCart, setOrder } = useCartDispatch()
@@ -52,7 +52,7 @@ const CheckoutPage = ({ checkoutToken }) => {
     const back = () => setCurrent(current - 1)
 
     // handlers
-    const handleNext = () => {
+    const handleNext = async () => {
         if (current < steps.length - 1) {
 
             if (current === 0) {
@@ -75,11 +75,9 @@ const CheckoutPage = ({ checkoutToken }) => {
                 return message.error('Please complete all fields.')
             }
 
-            setCurrent(0)
-            setShippingData({})
-            message.success('Processing complete!')
-
-            handleCaptureCheckout()
+            setLoading(true)
+            await handleCaptureCheckout()   
+            setLoading(false)
         }
     }
 
@@ -168,9 +166,15 @@ const CheckoutPage = ({ checkoutToken }) => {
             // localStorage.setItem('order_receipt', JSON.stringify(order))
             setOrder(order)
             await refreshCart()
+
+            setCurrent(0)
+            setShippingData({})
+            message.success('Processing complete!')
+           
             Router.push('/confirmation')
         } catch (error) {
             console.log(error);
+            message.error(`${error.data.status_code} ${error.data.error.message}`)
         }
     }
 
@@ -204,6 +208,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                                     icon={<CheckCircleOutlined />}
                                     type="primary"
                                     onClick={handleNext}
+                                    loading={loading}
                                 >
                                     Done
                                 </Button>
