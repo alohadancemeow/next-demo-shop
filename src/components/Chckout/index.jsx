@@ -165,7 +165,7 @@ const CheckoutPage = ({ checkoutToken }) => {
 
         try {
             const order = await commerce.checkout.capture(checkoutToken.id, orderData)
-            localStorage.setItem('order_receipt', JSON.stringify(order))
+            // localStorage.setItem('order_receipt', JSON.stringify(order))
             setOrder(order)
             await refreshCart()
             Router.push('/confirmation')
