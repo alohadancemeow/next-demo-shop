@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Router from 'next/router'
 
 import getCommerce from '../../lib/commerce'
@@ -10,7 +10,8 @@ import { CheckCircleOutlined, RightCircleOutlined, LeftCircleOutlined } from '@a
 import CustomerInfo from './CustomerInfo'
 import ShippingDetails from './ShippingDetails'
 import PaymentForm from './PaymentForm'
-import NoOrder from './NoOrder'
+
+import NoContent from '../NoContent'
 
 import {
     Container,
@@ -34,7 +35,14 @@ const commerce = getCommerce()
 
 const CheckoutPage = ({ checkoutToken }) => {
 
-    if (!checkoutToken) return <NoOrder />
+    // No chekoutToken
+    if (!checkoutToken) return (
+        <Container>
+            <BoxWrapper>
+                <NoContent />
+            </BoxWrapper>
+        </Container>
+    )
 
     // states
     const [current, setCurrent] = useState(0)
@@ -76,7 +84,7 @@ const CheckoutPage = ({ checkoutToken }) => {
             }
 
             setLoading(true)
-            await handleCaptureCheckout()   
+            await handleCaptureCheckout()
             setLoading(false)
         }
     }
@@ -170,7 +178,7 @@ const CheckoutPage = ({ checkoutToken }) => {
             setCurrent(0)
             setShippingData({})
             message.success('Processing complete!')
-           
+
             Router.push('/confirmation')
         } catch (error) {
             console.log(error);
