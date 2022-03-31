@@ -16,7 +16,7 @@ const NoContent = () => {
             extra={[
                 <Button
                     type="primary"
-                    // key="console"
+                    key="backtohome"
                     icon={<LeftCircleOutlined />}
                     onClick={() => Router.push('/')}
                 >

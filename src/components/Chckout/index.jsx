@@ -237,7 +237,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                             <SummaryTitle>Order Summary</SummaryTitle>
                             <SummaryContent>
                                 {checkoutToken && checkoutToken.live.line_items.map(item => (
-                                    <SummaryItemList>
+                                    <SummaryItemList key={item.id}>
                                         <Subtitle>x{item.quantity}</Subtitle>
                                         <Subtitle>{item.name}</Subtitle>
                                         <Subtitle>{item.line_total.formatted_with_symbol}</Subtitle>
