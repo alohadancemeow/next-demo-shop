@@ -6,7 +6,7 @@ import { useCartState } from '../context/Store'
 const ConfirmationPage = () => {
 
     const { order } = useCartState()
-    console.log(order);
+    // console.log(order);
 
     return (
         <ConfirmarionBox order={order} />

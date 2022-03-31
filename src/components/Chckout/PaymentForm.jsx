@@ -7,7 +7,7 @@ import { FormWrapper, FormItemWrapper } from './styles'
 const PaymentForm = ({ shippingData, setShippingData }) => {
 
   const windowWidth = useWindowWidth()
-  console.log(windowWidth);
+  // console.log(windowWidth);
 
   const handleChange = (e) => {
     setShippingData((prev) => ({
