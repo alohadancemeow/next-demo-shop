@@ -17,6 +17,7 @@ const Checkout = () => {
     const [checkoutToken, setCheckoutToken] = useState(null)
 
     // generate checkout token 
+    // DEBUG: logic is not good for perfomance.
     useEffect(() => {
 
         let getToken
@@ -26,7 +27,7 @@ const Checkout = () => {
             if (!checkoutToken) {
                 try {
                     getToken = await commerce.checkout.generateToken(data.id, { type: 'cart' })
-                    console.log('token', getToken);
+                    // console.log('token', getToken);
                     setCheckoutToken(getToken)
                 } catch (error) {
                     console.log(error);
@@ -36,7 +37,7 @@ const Checkout = () => {
 
             if (checkoutToken) {
                 getToken = await commerce.checkout.getToken(checkoutToken.id)
-                console.log('getToken', getToken);
+                // console.log('getToken', getToken);
             }
 
         }

@@ -4,7 +4,7 @@ import Router from 'next/router'
 import getCommerce from '../../lib/commerce'
 import { useCartDispatch } from '../../context/Store'
 
-import { Steps, message, Button } from 'antd'
+import { Steps, message, Button, PageHeader } from 'antd'
 import { CheckCircleOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
 
 import CustomerInfo from './CustomerInfo'
@@ -190,68 +190,74 @@ const CheckoutPage = ({ checkoutToken }) => {
     return (
         <Container>
             <BoxWrapper>
-                <Header>Checkout</Header>
-                <ContentWrapper>
-                    <ContentBox>
-                        <Steps size='small' current={current} progressDot>
-                            {steps.map(item => (
-                                <Step key={item.title} title={item.title} icon={item.icon} />
-                            ))}
-                        </Steps>
-                        {steps[current].content}
+                <PageHeader
+                    className="site-page-header"
+                    onBack={() => Router.push('/')}
+                    title="Checkout"
+                >
+                    <ContentWrapper>
+                        <ContentBox>
+                            <Steps size='small' current={current} progressDot>
+                                {steps.map(item => (
+                                    <Step key={item.title} title={item.title} icon={item.icon} />
+                                ))}
+                            </Steps>
+                            {steps[current].content}
 
-                        <ButtonWrapper>
-                            {current < steps.length - 1 && (
-                                <Button
-                                    icon={<RightCircleOutlined />}
-                                    type="primary"
-                                    onClick={handleNext}
-                                // disabled={}
-                                >
-                                    Next
-                                </Button>
-                            )}
-                            {current === steps.length - 1 && (
-                                <Button
-                                    icon={<CheckCircleOutlined />}
-                                    type="primary"
-                                    onClick={handleNext}
-                                    loading={loading}
-                                >
-                                    Done
-                                </Button>
-                            )}
-                            {current > 0 && (
-                                <Button
-                                    icon={<LeftCircleOutlined />}
-                                    style={{ margin: '0 8px' }}
-                                    onClick={handleBack}
-                                >
-                                    back
-                                </Button>
-                            )}
-                        </ButtonWrapper>
+                            <ButtonWrapper>
+                                {current < steps.length - 1 && (
+                                    <Button
+                                        icon={<RightCircleOutlined />}
+                                        type="primary"
+                                        onClick={handleNext}
+                                    // disabled={}
+                                    >
+                                        Next
+                                    </Button>
+                                )}
+                                {current === steps.length - 1 && (
+                                    <Button
+                                        icon={<CheckCircleOutlined />}
+                                        type="primary"
+                                        onClick={handleNext}
+                                        loading={loading}
+                                    >
+                                        Done
+                                    </Button>
+                                )}
+                                {current > 0 && (
+                                    <Button
+                                        icon={<LeftCircleOutlined />}
+                                        style={{ margin: '0 8px' }}
+                                        onClick={handleBack}
+                                    >
+                                        back
+                                    </Button>
+                                )}
+                            </ButtonWrapper>
 
-                    </ContentBox>
+                        </ContentBox>
 
-                    <SummaryBox>
-                        <SummaryTitle>Order Summary</SummaryTitle>
-                        <SummaryContent>
-                            {line_items.map(item => (
-                                <SummaryItemList>
-                                    <Subtitle>x{item.quantity}</Subtitle>
-                                    <Subtitle>{item.name}</Subtitle>
-                                    <Subtitle>{item.line_total.formatted_with_symbol}</Subtitle>
-                                </SummaryItemList>
-                            ))}
-                            <Subtotal>
-                                <span>Subtotal</span>
-                                <span>{subtotal.formatted_with_code}</span>
-                            </Subtotal>
-                        </SummaryContent>
-                    </SummaryBox>
+                        <SummaryBox>
+                            <SummaryTitle>Order Summary</SummaryTitle>
+                            <SummaryContent>
+                                {line_items.map(item => (
+                                    <SummaryItemList>
+                                        <Subtitle>x{item.quantity}</Subtitle>
+                                        <Subtitle>{item.name}</Subtitle>
+                                        <Subtitle>{item.line_total.formatted_with_symbol}</Subtitle>
+                                    </SummaryItemList>
+                                ))}
+                                <Subtotal>
+                                    <span>Subtotal</span>
+                                    <span>{subtotal.formatted_with_code}</span>
+                                </Subtotal>
+                            </SummaryContent>
+                        </SummaryBox>
 
-                </ContentWrapper>
+                    </ContentWrapper>
+
+                </PageHeader>
             </BoxWrapper>
         </Container>
     )

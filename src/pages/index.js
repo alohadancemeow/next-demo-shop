@@ -14,7 +14,7 @@ const Home = ({ merchant, categories, products }) => {
 
   const { cart } = useCartState()
 
-  console.log(cart);
+  // console.log(cart);
 
   // states
   const [open, setOpen] = useState(false)
