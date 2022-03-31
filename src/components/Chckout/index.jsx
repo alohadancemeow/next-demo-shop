@@ -10,13 +10,11 @@ import { CheckCircleOutlined, RightCircleOutlined, LeftCircleOutlined } from '@a
 import CustomerInfo from './CustomerInfo'
 import ShippingDetails from './ShippingDetails'
 import PaymentForm from './PaymentForm'
-
 import NoContent from '../NoContent'
 
 import {
     Container,
     BoxWrapper,
-    Header,
     ContentWrapper,
     ContentBox,
     SummaryBox,
@@ -191,7 +189,6 @@ const CheckoutPage = ({ checkoutToken }) => {
         <Container>
             <BoxWrapper>
                 <PageHeader
-                    className="site-page-header"
                     onBack={() => Router.push('/')}
                     title="Checkout"
                 >

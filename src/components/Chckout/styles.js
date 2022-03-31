@@ -25,13 +25,23 @@ export const ContentWrapper = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: "content content summary";
     gap: 5px 15px;
-    /* margin: 10px; */
+
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+        "summary summary"
+        "content content"
+        ;
+    }
 `
 
 export const ContentBox = styled.div`
     grid-area: content;
     padding: 15px 15px 0 0;
 
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+        padding: 15px 0 0 0 ;
+    }
 `
 
 export const SummaryBox = styled.div`
@@ -74,6 +84,14 @@ export const Subtotal = styled.div`
     color: gray;
     font-weight: 500;
     margin-top: 10px;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+        justify-content: flex-start;
+
+        span:nth-child(2) {
+            padding-left: 20px;
+        }
+    }
 `
 
 export const ButtonWrapper = styled.div`
@@ -82,6 +100,10 @@ export const ButtonWrapper = styled.div`
 
     width: 80%;
     margin: 0 auto;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+       width: 100%;
+    }
 `
 
 
@@ -90,11 +112,31 @@ export const FormWrapper = styled.div`
     width: 80%;
     margin:0 auto;
     padding-top: 20px;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+       width: 100%;
+       padding-top: 0px;
+
+       .ant-form-item {
+            &:not(:first-child) {
+                margin-top: 5px !important;
+            }
+            &:not(:last-child) {
+                margin-bottom: 0px !important;
+            }
+       }
+    }
+    
 `
 
 export const FormItemWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 5px 5px;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+       display: flex;
+       flex-direction: column;
+    }
 `
 

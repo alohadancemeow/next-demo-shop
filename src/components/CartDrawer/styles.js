@@ -52,4 +52,11 @@ export const EditPriceBox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+       a {
+            margin: 0 -10px;
+            padding: 0 5px;
+       }
+    }
 `
