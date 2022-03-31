@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import ProductItem from './ProductItem'
 import { Container } from './styles'
