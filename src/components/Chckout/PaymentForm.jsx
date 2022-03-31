@@ -1,10 +1,13 @@
 import React from 'react'
+import { useWindowWidth } from '@react-hook/window-size'
 
 import { Form, Input, Alert } from 'antd'
 import { FormWrapper, FormItemWrapper } from './styles'
 
 const PaymentForm = ({ shippingData, setShippingData }) => {
 
+  const windowWidth = useWindowWidth()
+  console.log(windowWidth);
 
   const handleChange = (e) => {
     setShippingData((prev) => ({
@@ -25,7 +28,7 @@ const PaymentForm = ({ shippingData, setShippingData }) => {
           </>
         }
         type="info"
-        showIcon
+        showIcon={windowWidth >= 576}
         style={{ margin: '10px 0' }}
       />
       <Form
