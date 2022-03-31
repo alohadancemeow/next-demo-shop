@@ -39,7 +39,7 @@ const Home = ({ merchant, categories, products }) => {
 
 export default Home
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const commerce = getCommerce();
   const merchant = await commerce.merchants.about();
   const { data: categories } = await commerce.categories.list();
