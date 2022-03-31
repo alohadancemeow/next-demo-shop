@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Router from 'next/router'
 
 import getCommerce from '../../lib/commerce'
@@ -183,6 +183,15 @@ const CheckoutPage = ({ checkoutToken }) => {
             message.error(`${error.data.status_code} ${error.data.error.message}`)
         }
     }
+
+    useEffect(() => {
+        setCurrent(0)
+        setLoading(false)
+        setShippingData({})
+
+        setCart()
+        setOrder()
+    }, [])
 
 
     return (
