@@ -33,15 +33,6 @@ const commerce = getCommerce()
 
 const CheckoutPage = ({ checkoutToken }) => {
 
-    // No chekoutToken
-    if (!checkoutToken) return (
-        <Container>
-            <BoxWrapper>
-                <NoContent />
-            </BoxWrapper>
-        </Container>
-    )
-
     // states
     const [current, setCurrent] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -50,7 +41,7 @@ const CheckoutPage = ({ checkoutToken }) => {
     // call context
     const { setCart, setOrder } = useCartDispatch()
 
-    const { live: { line_items, subtotal } } = checkoutToken
+    // const { live: { line_items, subtotal } } = checkoutToken
 
 
     // next-back step
@@ -137,7 +128,7 @@ const CheckoutPage = ({ checkoutToken }) => {
 
         // create orderData for capture
         const orderData = {
-            line_items: line_items,
+            line_items: checkoutToken.live.line_items,
             customer: {
                 firstname: shippingData.name,
                 // lastname: shippingData.lastname,
@@ -184,15 +175,13 @@ const CheckoutPage = ({ checkoutToken }) => {
         }
     }
 
-    useEffect(() => {
-        setCurrent(0)
-        setLoading(false)
-        setShippingData({})
-
-        setCart()
-        setOrder()
-    }, [])
-
+    if (!checkoutToken) return (
+        <Container>
+            <BoxWrapper>
+                <NoContent />
+            </BoxWrapper>
+        </Container>
+    )
 
     return (
         <Container>
@@ -247,7 +236,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                         <SummaryBox>
                             <SummaryTitle>Order Summary</SummaryTitle>
                             <SummaryContent>
-                                {line_items.map(item => (
+                                {checkoutToken && checkoutToken.live.line_items.map(item => (
                                     <SummaryItemList>
                                         <Subtitle>x{item.quantity}</Subtitle>
                                         <Subtitle>{item.name}</Subtitle>
@@ -256,7 +245,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                                 ))}
                                 <Subtotal>
                                     <span>Subtotal</span>
-                                    <span>{subtotal.formatted_with_code}</span>
+                                    <span>{checkoutToken && checkoutToken.ilve && checkoutToken.ilve.subtotal.formatted_with_code}</span>
                                 </Subtotal>
                             </SummaryContent>
                         </SummaryBox>
