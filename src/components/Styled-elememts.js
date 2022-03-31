@@ -29,3 +29,9 @@ export const StyledButton = styled(Button)`
         };
     }
 `
+
+export const Spinner = styled.div`
+    width: 100%;
+    margin: 0px auto;
+    text-align: center;
+`

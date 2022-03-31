@@ -3,57 +3,23 @@ import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import NavBar from '../components/NavBar'
-
 import CartDrawer from '../components/CartDrawer'
 import CustomTabs from '../components/Tabs'
+import { Spinner } from '../components/Styled-elememts'
 
 import getCommerce from '../lib/commerce'
-import { useCartDispatch, useCartState } from '../context/Store'
+import { useCartState } from '../context/Store'
 
 const Home = ({ merchant, categories, products }) => {
 
   const { cart } = useCartState()
-  const { setCart } = useCartDispatch()
 
-  console.log(cart);
+  // console.log(cart);
 
   // states
   const [open, setOpen] = useState(false)
-  const [current, setCurrent] = useState(0)
-  const [order, setOrder] = useState({})
 
-  const commerce = getCommerce()
-
-  // cart handlers
-
-  // Refresh the cart and update the cart state
-  const refreshCart = async () => {
-    const newCart = await commerce.cart.refresh()
-    setCart(newCart)
-  }
-
-  // Capture the checkout
-  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
-    try {
-      const order = commerce.checkout.capture(checkoutTokenId, newOrder)
-      setOrder(order)
-      refreshCart()
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // next step
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  // back step
-  const back = () => {
-    setCurrent(current - 1);
-  };
-
-  if (cart.loading) return 'loading...'
+  if (cart.loading) return <Spinner>Loading...</Spinner>
 
   return (
     <Layout title='Next-Demo-Shop'>
@@ -66,11 +32,6 @@ const Home = ({ merchant, categories, products }) => {
       <CartDrawer
         open={open}
         setOpen={setOpen}
-        current={current}
-        setCurrent={setCurrent}
-        next={next}
-        back={back}
-        handleCaptureCheckout={handleCaptureCheckout}
       />
     </Layout>
   )

@@ -44,6 +44,7 @@ export const StoreProvider = ({ children, commercePublicKey }) => {
     const [state, dispatch] = useReducer(reducer, innitailState)
 
     const setCart = (payload) => dispatch({ type: CART_RETRIEVE_SUCCESS, payload })
+    const setOrder = (payload) => dispatch({ type: ORDER_SET, payload })
 
     const getCart = async () => {
         try {
@@ -61,7 +62,7 @@ export const StoreProvider = ({ children, commercePublicKey }) => {
     }, [])
 
     return (
-        <StoreDispatch.Provider value={{ setCart }}>
+        <StoreDispatch.Provider value={{ setCart, setOrder }}>
             <StoreContext.Provider value={state}>
                 {children}
             </StoreContext.Provider>
