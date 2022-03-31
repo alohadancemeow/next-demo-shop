@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Router from 'next/router'
 
 import getCommerce from '../../lib/commerce'
@@ -245,7 +245,7 @@ const CheckoutPage = ({ checkoutToken }) => {
                                 ))}
                                 <Subtotal>
                                     <span>Subtotal</span>
-                                    <span>{checkoutToken && checkoutToken.ilve && checkoutToken.ilve.subtotal.formatted_with_code}</span>
+                                    <span>{checkoutToken && checkoutToken.live.subtotal.formatted_with_code}</span>
                                 </Subtotal>
                             </SummaryContent>
                         </SummaryBox>
