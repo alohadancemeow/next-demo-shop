@@ -10,6 +10,8 @@ import { Card, ImageBox, TextBox, Title, EnterBox, BoxWrapper, BoxDetails, Butto
 import { Modal, message } from 'antd'
 import { LockOutlined, ShoppingOutlined, CloseCircleOutlined, RightCircleOutlined, PushpinFilled } from '@ant-design/icons'
 
+import Router from 'next/router'
+
 const ProductItem = ({ item, setOpen }) => {
 
     const commerce = getCommerce()
@@ -35,7 +37,9 @@ const ProductItem = ({ item, setOpen }) => {
     // handlers
     const handleOpen = () => {
         setEnter(false)
-        setVisible(true)
+        // setVisible(true)
+
+        Router.push(`/products/${item.permalink}`)
     };
     const handleClose = () => setVisible(false);
 
