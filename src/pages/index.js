@@ -1,38 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import Header from '../components/Header'
 import Layout from '../components/Layout'
-import NavBar from '../components/NavBar'
-import CartDrawer from '../components/CartDrawer'
 import CustomTabs from '../components/Tabs'
-import { Spinner } from '../components/Styled-elememts'
 
 import getCommerce from '../lib/commerce'
-import { useCartState } from '../context/Store'
+
 
 const Home = ({ merchant, categories, products }) => {
 
-  const { cart } = useCartState()
-
-  // console.log(products);
-
-  // states
-  const [open, setOpen] = useState(false)
-
-  if (cart.loading) return <Spinner>Loading...</Spinner>
-
   return (
-    <Layout title='Next-Demo-Shop'>
-      <NavBar setOpen={setOpen} />
+    <Layout title='I will have order'>
       <Header />
-      <CustomTabs
-        products={products}
-        setOpen={setOpen}
-      />
-      <CartDrawer
-        open={open}
-        setOpen={setOpen}
-      />
+      <CustomTabs products={products} />
     </Layout>
   )
 }

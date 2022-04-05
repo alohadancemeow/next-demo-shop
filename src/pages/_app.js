@@ -1,6 +1,8 @@
 // import '../../styles/globals.css'
+import { useState } from 'react';
 import { createGlobalStyle, ThemeProvider, css } from 'styled-components'
 import { StoreProvider } from '../context/Store';
+import { GlobalContext } from '../context/GlobalContext';
 
 // useing antd css
 const antdCss = css`
@@ -64,11 +66,16 @@ const theme = {
 }
 
 function MyApp({ Component, pageProps }) {
+  const [open, setOpen] = useState(false)
+  // console.log(open);
+
   return (
     <StoreProvider>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <GlobalContext.Provider value={{ open, setOpen }}>
+          <Component {...pageProps} />
+        </GlobalContext.Provider>
       </ThemeProvider>
     </StoreProvider>
   )

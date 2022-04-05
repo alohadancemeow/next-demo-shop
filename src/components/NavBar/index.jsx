@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useCartState } from '../../context/Store'
 
 import { Container, CartIcon, Text } from './styles'
 import { AccountBookOutlined } from '@ant-design/icons'
 
-const NavBar = ({ setOpen }) => {
+import { GlobalContext } from '../../context/GlobalContext'
 
+
+const NavBar = () => {
+
+    // store context
     const { cart } = useCartState()
 
-    const noItem = cart && cart.data.total_items >= 1 ? false : true
+    // global context
+    const { setOpen } = useContext(GlobalContext)
+
+    const noItem = cart && cart.data && cart.data.total_items >= 1 ? false : true
     // console.log(noItem);
 
     return (

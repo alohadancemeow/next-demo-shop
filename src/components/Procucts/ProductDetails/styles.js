@@ -6,7 +6,7 @@ export const Container = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     max-width: 1000px;
-    padding-top: 2rem;
+    padding-top: 3rem;
     margin: 0 auto;
     /* position: relative; */
 

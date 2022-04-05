@@ -1,7 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
+import NavBar from './NavBar'
+import CartDrawer from './CartDrawer'
 
-const Layout = ({ children, title = 'next-app' }) => {
+const Layout = ({ children, title = 'I will have order' }) => {
     return (
         <div>
             <Head>
@@ -11,6 +13,8 @@ const Layout = ({ children, title = 'next-app' }) => {
             </Head>
 
             <main>
+                <NavBar />
+                <CartDrawer />
                 {children}
             </main>
         </div>
