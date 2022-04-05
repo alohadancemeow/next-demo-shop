@@ -1,21 +1,9 @@
 import styled from 'styled-components'
 
-export const Card = styled.div`
+export const CardWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 20px;
-    width: calc(100% / 3);
-    
-    @media screen and (max-width: ${({ theme }) => theme.breakpoints.tablet}){
-        width: calc(100% / 2);
-    }
-
-    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}){
-        width: calc(100% / 1);
-    }
 `
 
 export const ImageBox = styled.div`
@@ -26,7 +14,7 @@ export const ImageBox = styled.div`
 
 export const TextBox = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     padding: 10px 0;
     width: 100%;  
@@ -38,62 +26,5 @@ export const Title = styled.p`
 
     &:nth-child(2) {
         color: ${({ theme }) => theme.textColors.warnning};
-    }
-
-    &:nth-child(3) {
-        color: ${({ theme }) => theme.textColors.success};
-
-        /* ::before{
-            content: "฿";
-        } */
-    }
-`
-
-export const EnterBox = styled.div`
-    /* display: ${({ enter }) => enter ? 'block' : 'none'}; */
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #d4d4d4;
-    opacity: 0.9;
-    z-index: 2;
-    
-`
-export const BoxWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-`
-
-// Modal styles
-export const BoxDetails = styled.div`
-    display: 'flex';
-    flex-direction: column;
-    text-align: center;
-`
-
-export const ButtonWrapper = styled.div`
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-`
-
-export const Description = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background-color: #ebebeb;
-    border-radius: 4px;
-
-    padding: 10px;
-    color: gray;
-    margin: 10px 0;
-
-    span:first-child {
-        font-weight: 500;
-        padding: 0 3px;
     }
 `

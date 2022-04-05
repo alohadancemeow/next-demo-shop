@@ -13,7 +13,6 @@ const Products = ({ products, setOpen }) => {
                 <ProductItem
                     key={item.id}
                     item={item}
-                    setOpen={setOpen}
                 />
             ))}
         </Container>
