@@ -3,6 +3,8 @@ import Router from 'next/router';
 import { stripHtml } from 'string-strip-html'
 
 import Layout from '../../Layout';
+import NavBar from '../../NavBar';
+import CartDrawer from '../../CartDrawer';
 import { PageHeader, Card, Button, Tag, message } from 'antd';
 import { ShoppingOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import { Container, ContentWrapper, StyledImage, Content, Header, Title, Subtitle, CardWrapper } from './styles'
@@ -37,6 +39,8 @@ const ProductDetails = ({ product }) => {
 
     return (
         <Layout title={`I will have order - ${name}`}>
+            <NavBar />
+            <CartDrawer />
             <Container>
                 <PageHeader
                     className="site-page-header"

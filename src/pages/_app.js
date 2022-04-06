@@ -68,7 +68,7 @@ const theme = {
 function MyApp({ Component, pageProps }) {
   const [open, setOpen] = useState(false)
   const [checkoutToken, setCheckoutToken] = useState(null)
-  console.log(checkoutToken);
+  // console.log(checkoutToken);
 
   return (
     <StoreProvider>
