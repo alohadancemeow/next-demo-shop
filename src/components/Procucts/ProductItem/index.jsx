@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Card } from 'antd'
 import { CardWrapper, ImageBox, TextBox, Title } from './styles'
 
+const { Meta } = Card;
 
 const ProductItem = ({ item }) => {
     // console.log(item);
@@ -23,7 +24,7 @@ const ProductItem = ({ item }) => {
         <CardWrapper>
             <Card
                 hoverable
-                onClick={() => Router.push(`/products/${permalink}`)}
+            // onClick={() => Router.push(`/products/${permalink}`)}
             >
                 <ImageBox>
                     <Image
@@ -35,10 +36,15 @@ const ProductItem = ({ item }) => {
                         priority={true}
                     />
                 </ImageBox>
-                <TextBox>
+                {/* <TextBox>
                     <Title>{name}</Title>
                     <Title>{available ? formatted_with_symbol : 'Sold out'}</Title>
-                </TextBox>
+                </TextBox> */}
+                <Meta
+                    style={{ textAlign: 'center' }}
+                    title={name}
+                    description={available ? formatted_with_symbol : 'Sold out'}
+                />
             </Card>
         </CardWrapper>
     )

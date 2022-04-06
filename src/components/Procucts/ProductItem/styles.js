@@ -1,15 +1,18 @@
 import styled from 'styled-components'
 
 export const CardWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* width: 100%; */
 `
 
 export const ImageBox = styled.div`
     position: relative;
     width: 100%;
     text-align: center;
+    margin-bottom: 10px;
 `
 
 export const TextBox = styled.div`
