@@ -72,9 +72,7 @@ const CheckoutPage = () => {
                 return message.error('Please complete all fields.')
             }
 
-            setLoading(true)
             await handleCaptureCheckout()
-            setLoading(false)
         }
     }
 
@@ -125,6 +123,7 @@ const CheckoutPage = () => {
     // - set refresh cart
     // - redirect to confirmation page
     const handleCaptureCheckout = async () => {
+        setLoading(true)
 
         // create orderData for capture
         const orderData = {
@@ -173,6 +172,8 @@ const CheckoutPage = () => {
             console.log(error);
             message.error(`${error.data.status_code} ${error.data.error.message}`)
         }
+
+        setLoading(false)
     }
 
     if (!checkoutToken) return (
