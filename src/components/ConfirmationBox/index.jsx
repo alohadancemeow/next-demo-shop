@@ -38,7 +38,7 @@ const ConfirmarionBox = ({ order }) => {
                                     type="primary"
                                     key="backtohome"
                                     icon={<LeftCircleOutlined />}
-                                    onClick={() => Router.push('/')}
+                                    onClick={() => Router.replace('/')}
                                 >
                                     Go back to home
                                 </Button>

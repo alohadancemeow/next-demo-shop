@@ -168,7 +168,7 @@ const CheckoutPage = () => {
             setShippingData({})
             message.success('Processing complete!')
 
-            Router.push('/confirmation')
+            Router.replace('/confirmation')
         } catch (error) {
             console.log(error);
             message.error(`${error.data.status_code} ${error.data.error.message}`)
