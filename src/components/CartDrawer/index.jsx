@@ -12,14 +12,18 @@ import CartTable from './CartTable'
 import { useCartState } from '../../context/Store'
 import { GlobalContext } from '../../context/GlobalContext'
 
+import getCommerce from '../../lib/commerce'
 
 const CartDrawer = () => {
 
     // states
     const [width, setWidth] = useState(0)
+    const [loading, setLoading] = useState(false)
+
+    const commerce = getCommerce()
 
     // global context
-    const { open, setOpen } = useContext(GlobalContext)
+    const { open, setOpen, setCheckoutToken } = useContext(GlobalContext)
 
     // use context
     const { cart } = useCartState()
@@ -27,6 +31,25 @@ const CartDrawer = () => {
 
     // check for innerWidth
     const isMobile = width <= 578 ? true : false
+
+
+    // handle generate token
+    const generateToken = async () => {
+        setLoading(true)
+        if (data.line_items) {
+            try {
+                const token = await commerce.checkout.generateToken(data.id, { type: 'cart' })
+                // console.log('token', token);
+                setCheckoutToken(token)
+                setOpen(false)
+                Router.replace('/checkout')
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setLoading(false)
+    }
+
 
     // or use @react-hook/window-size
     useEffect(() => {
@@ -70,13 +93,12 @@ const CartDrawer = () => {
                         Close
                     </StyledButton>
                     <StyledButton
-                        htmlType='submit'
-                        form='form'
                         size='large'
                         variant='accent'
                         icon={<RightCircleOutlined />}
-                        onClick={() => Router.push('/checkout')}
+                        onClick={generateToken}
                         disabled={data && data.line_items && data.line_items.length >= 1 ? false : true}
+                        loading={loading}
                     >
                         Checkout
                     </StyledButton>

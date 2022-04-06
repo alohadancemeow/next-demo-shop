@@ -67,13 +67,14 @@ const theme = {
 
 function MyApp({ Component, pageProps }) {
   const [open, setOpen] = useState(false)
-  // console.log(open);
+  const [checkoutToken, setCheckoutToken] = useState(null)
+  console.log(checkoutToken);
 
   return (
     <StoreProvider>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <GlobalContext.Provider value={{ open, setOpen }}>
+        <GlobalContext.Provider value={{ open, setOpen, checkoutToken, setCheckoutToken }}>
           <Component {...pageProps} />
         </GlobalContext.Provider>
       </ThemeProvider>
