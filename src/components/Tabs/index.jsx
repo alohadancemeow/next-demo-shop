@@ -5,12 +5,12 @@ import Products from '../Procucts';
 
 const { TabPane } = Tabs;
 
-const CustomTabs = ({ products, setOpen, handleAddToCart }) => {
+const CustomTabs = ({ products, setOpen }) => {
     // console.log(products);
 
     // filtering by category
-    const bookProducts = products && products.filter(({ categories: [{ slug }] }) => slug === 'book')
-    const nftProducts = products && products.filter(({ categories: [{ slug }] }) => slug === 'nft')
+    const mangaProducts = products && products.filter(({ categories: [{ slug }] }) => slug === 'manga')
+    const novelProducts = products && products.filter(({ categories: [{ slug }] }) => slug === 'novel')
     // console.log(nftProducts);
 
     return (
@@ -21,15 +21,15 @@ const CustomTabs = ({ products, setOpen, handleAddToCart }) => {
                     setOpen={setOpen}
                 />
             </TabPane>
-            <TabPane tab="BOOKS" key="2">
+            <TabPane tab="MANGA" key="2">
                 <Products
-                    products={bookProducts}
+                    products={mangaProducts}
                     setOpen={setOpen}
                 />
             </TabPane>
-            <TabPane tab="NFT" key="3">
+            <TabPane tab="NOVEL" key="3">
                 <Products
-                    products={nftProducts}
+                    products={novelProducts}
                     setOpen={setOpen}
                 />
             </TabPane>

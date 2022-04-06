@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import Router from 'next/router'
 
@@ -6,22 +6,50 @@ import { Drawer } from 'antd'
 import { CloseCircleOutlined, RightCircleOutlined } from '@ant-design/icons'
 
 import { ContainerWrapper, ContentWrapper, ButtontWrapper, Content } from './styles'
-import { StyledButton } from '../Styled-elememts'
+import { Spinner, StyledButton } from '../Styled-elememts'
 import CartTable from './CartTable'
 
 import { useCartState } from '../../context/Store'
+import { GlobalContext } from '../../context/GlobalContext'
 
+import getCommerce from '../../lib/commerce'
 
-const CartDrawer = ({ open, setOpen }) => {
+const CartDrawer = () => {
 
     // states
     const [width, setWidth] = useState(0)
+    const [loading, setLoading] = useState(false)
+
+    const commerce = getCommerce()
+
+    // global context
+    const { open, setOpen, setCheckoutToken } = useContext(GlobalContext)
 
     // use context
-    const { cart: { data } } = useCartState()
+    const { cart } = useCartState()
+    const { data } = cart
 
     // check for innerWidth
     const isMobile = width <= 578 ? true : false
+
+
+    // handle generate token
+    const generateToken = async () => {
+        setLoading(true)
+        if (data.line_items) {
+            try {
+                const token = await commerce.checkout.generateToken(data.id, { type: 'cart' })
+                // console.log('token', token);
+                setCheckoutToken(token)
+                setOpen(false)
+                Router.replace('/checkout')
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setLoading(false)
+    }
+
 
     // or use @react-hook/window-size
     useEffect(() => {
@@ -31,6 +59,8 @@ const CartDrawer = ({ open, setOpen }) => {
 
         return () => window.removeEventListener("resize", handleResize)
     }, [setWidth])
+
+    if (cart.loading) return <Spinner>Loading...</Spinner>
 
 
     return (
@@ -63,13 +93,12 @@ const CartDrawer = ({ open, setOpen }) => {
                         Close
                     </StyledButton>
                     <StyledButton
-                        htmlType='submit'
-                        form='form'
                         size='large'
                         variant='accent'
                         icon={<RightCircleOutlined />}
-                        onClick={() => Router.push('/checkout')}
+                        onClick={generateToken}
                         disabled={data && data.line_items && data.line_items.length >= 1 ? false : true}
+                        loading={loading}
                     >
                         Checkout
                     </StyledButton>

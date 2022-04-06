@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Router from 'next/router'
 
 import getCommerce from '../../lib/commerce'
 import { useCartDispatch } from '../../context/Store'
+import { GlobalContext } from '../../context/GlobalContext'
 
 import { Steps, message, Button, PageHeader } from 'antd'
 import { CheckCircleOutlined, RightCircleOutlined, LeftCircleOutlined } from '@ant-design/icons'
@@ -31,7 +32,7 @@ const { Step } = Steps
 
 const commerce = getCommerce()
 
-const CheckoutPage = ({ checkoutToken }) => {
+const CheckoutPage = () => {
 
     // states
     const [current, setCurrent] = useState(0)
@@ -40,8 +41,7 @@ const CheckoutPage = ({ checkoutToken }) => {
 
     // call context
     const { setCart, setOrder } = useCartDispatch()
-
-    // const { live: { line_items, subtotal } } = checkoutToken
+    const { checkoutToken } = useContext(GlobalContext)
 
 
     // next-back step
@@ -168,7 +168,7 @@ const CheckoutPage = ({ checkoutToken }) => {
             setShippingData({})
             message.success('Processing complete!')
 
-            Router.push('/confirmation')
+            Router.replace('/confirmation')
         } catch (error) {
             console.log(error);
             message.error(`${error.data.status_code} ${error.data.error.message}`)

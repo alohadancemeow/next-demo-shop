@@ -11,7 +11,7 @@ const ConfirmationPage = () => {
     // console.log(order);
 
     return (
-        <Layout title='Next-Confimation'>
+        <Layout title='I will have order - Confirmation'>
             <ConfirmarionBox order={order} />
         </Layout>
     )
