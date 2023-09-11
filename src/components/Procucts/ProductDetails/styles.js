@@ -40,24 +40,38 @@ export const ContentWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
 
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+        flex-direction: column;
+    }
     @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
         flex-direction: column;
     }
 `
 
+
 export const StyledImage = styled(AntImage)`
-    width: 500px;
+    width: 100%;
+    
+    &.ant-image-img {
+        max-height: 650px;
+        width: 100%;
+        /* height: 100%; */
+        object-fit: cover;
 
-    @media screen and (max-width: ${({ theme }) => theme.breakpoints.notebook}) {
-        width: 400px;
+        @media screen and (max-width: ${({ theme }) => theme.breakpoints.notebook}) {
+            width: 400px;
+        }
+    
+        @media screen and (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+            width: 250px;
+            height: 400px;
+        }
     }
 
-    @media screen and (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-        width: 350px;
-    }
-    @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-        width: 250px;
-    }
 `
 
 export const Content = styled.div`
@@ -69,10 +83,15 @@ export const Content = styled.div`
     padding: 5rem 3rem;
     margin-left: 10px;
 
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+        width: 100%;
+        margin: 0;
+    }
+
     @media screen and (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-        width: fit-content;
-        padding: 10px 3rem;
-        margin: 10px auto;
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
         text-align: center;
     }
 `
